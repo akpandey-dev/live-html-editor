@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live HTML Editor</title>
+
+  <style>
+
+    body {
+      background-color: darkgrey;
+      margin: 3vh;
+      border: 5px solid black;
+      min-height: 90vh;
+      padding: 4px;
+      display: flex;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+    }
+
+  .container{
+      width: 100%;
+      max-width: 1000px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2vh;
+    }
+
+    .title{
+      width: 100%;
+      border: 2px solid black;
+      background: white;
+      padding: 8px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    h1{
+      margin: 0;
+      color: blueviolet;
+      font-size: 28px;}
+
+    textarea {
+      width: 100%;
+      min-height: 55vh;
+      resize: vertical;
+      padding: 10px;
+      box-sizing: border-box;
+      font-family: monospace;
+      font-size: 15px;
+      border: 2px solid black;
+      background: white;
+      outline: none;
+    }
+
+    iframe{
+      width: 100%;
+      min-height: 70vh;
+      background: white;
+      border: 5px solid white;
+      display: none;
+    }
+
+    .buttons{
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 1000;
+    }
+
+    button{
+      color: white;
+      background-color: darkblue;
+      border: none;
+      padding: 12px 18px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover{
+      background-color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="title">
+      <h1>LIVE HTML EDITOR</h1>
+    </div>
+
+    <textarea id="editor"><h1>Hello World</h1></textarea>
+
+    <iframe id="preview"></iframe>
+
+  </div>
+
+  <div class="buttons">
+    <button id="clear">Clear</button>
+    <button id="run">Run</button>
+    <button id="back" style="display:none;">Back</button>
+  </div>
+
+  <script>
+const editor = document.getElementById("editor");
+const preview = document.getElementById("preview");
+
+    const runBtn = document.getElementById("run");
+    const clearBtn = document.getElementById("clear");
+    const backBtn = document.getElementById("back");
+
+    runBtn.onclick = () => {
+    preview.srcdoc = editor.value;
+
+      editor.style.display = "none";
+      preview.style.display = "block";
+
+      runBtn.style.display = "none";
+      clearBtn.style.display = "none";
+      backBtn.style.display = "inline-block";
+    };
+
+    backBtn.onclick = () => {
+      editor.style.display = "block";
+      preview.style.display = "none";
+
+      runBtn.style.display = "inline-block";
+      clearBtn.style.display = "inline-block";
+      backBtn.style.display = "none";
+    };
+
+    clearBtn.onclick = () => {
+  editor.value = "";
+    preview.srcdoc = "";
+    };
+  </script>
+
+</body>
+</html>
