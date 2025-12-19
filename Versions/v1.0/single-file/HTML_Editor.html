@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live HTML Editor</title>
+  <style>
+    body {
+      background-color: darkgrey;
+      margin: 3vh;
+      border: 5px solid black;
+      min-height: 90vh;
+      padding: 4px;
+      display: flex;
+      justify-content: center;
+    }
+    .all {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2vh;
+      width: 100%;
+      max-width: 1000px;
+      box-sizing: border-box;
+    }
+
+
+.heading {
+  border: 2px solid black;
+  padding: 3px;
+  width: 100%;      
+  box-sizing: border-box;
+  position: relative; /* important */
+}
+
+#floatingMenu {
+  position: absolute;
+  top: 50%;
+  right: 0.5vh; /* thoda border se andar */
+  transform: translateY(-50%); /* center vertically */
+  z-index: 9999;
+  width: 4vh;
+  height: 4vh;
+  background-color: darkgray;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+    .btn-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      width: 100%;
+    }
+    .toggle-btn {
+      color: white;
+      background-color: darkgreen;
+      width: clamp(120px, 40%, 250px);
+      height: clamp(30px, 6vh, 60px); 
+      border: none;
+      font-size: clamp(12px, 4vw, 22px);
+      white-space: nowrap;
+      border-radius: 6px;
+      box-shadow: 0 5px #0a3d0a;
+      transition: all 0.15s ease-in-out;
+      cursor: pointer;
+      margin: 2%;
+      display: block;
+    }
+    .toggle-btn:hover {
+      background-color: #1e7b1e;
+    }
+    .toggle-btn:active {
+      box-shadow: 0 2px #0a3d0a;
+      transform: translateY(3px);
+    }
+    .editor {
+      border: 2px solid black;
+      width: 100%;
+      min-height: 50vh;
+      max-height: 65vh;
+      background: white;
+      padding: 10px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+      outline: none;
+      display: none;
+      tab-size: 2;
+    
+      
+    }
+    .executed {
+      border: 5px solid white;
+      width: 100%;
+      height: auto;
+      margin-top: 1rem;
+      min-height: 200px;
+      background: white;
+      display: none;
+    }
+    @media (max-width: 500px) {
+      body {
+        margin: 1vh;
+        border-width: 3px;
+      }
+      .all {
+        padding: 0.5rem;
+        gap: 1vh;
+      }
+      .toggle-btn {
+        width: 100%;
+      }
+    }
+    .btn-exe-container {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1rem;
+      z-index: 1000;
+    }
+    .clr-btn,
+    .execute-btn,
+    .back-btn {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      background: darkblue;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    .back-btn{
+      display:none;
+    }
+    .clr-btn:hover,
+    .execute-btn:hover,
+    .back-btn:hover {
+      background: green;
+    }
+    #floatCopy {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 10px 15px;
+      font-size: 15px;
+      border-radius: 50%;
+      background-color: blueviolet;
+      color: white;
+      border: none;
+      cursor: grab;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+/* only shows when empty */
+.editor:empty:before {
+  content: attr(data-placeholder);
+  color: rgba(0,0,0,0.3); /* faint like a watermark */
+  pointer-events: none;     /* lets you type over it */
+}
+
+body.nightmode {
+  background-color: #111;
+  color: #eee;
+}
+
+body.nightmode .editor {
+  background: #1e1e1e;
+  color: #0f0;
+  border-color: #444;
+}
+
+body.nightmode .executed {
+  background: #000;
+  border-color: #333;
+}
+
+body.nightmode .toggle-btn,
+body.nightmode .clr-btn,
+body.nightmode .execute-btn,
+body.nightmode .back-btn {
+  background: #333;
+  color: #eee;
+  box-shadow: 0 4px #111;
+}
+
+body.nightmode .toggle-btn:hover,
+body.nightmode .clr-btn:hover,
+body.nightmode .execute-btn:hover,
+body.nightmode .back-btn:hover {
+  background: #555;
+}
+#toolbarMenu{
+   background-color: darkgrey;   
+   width: 100%;
+   height: 100%; 
+   border-radius: 50%; 
+}
+#html-editor{
+  display:block;
+}
+#filePicker{
+ display:none
+}
+
+.headingDiv{
+  color: blueviolet;
+  text-align: center;
+}
+.headingDiv:hover{
+  color: blue;
+}
+  </style>
+</head>
+<body>
+  <div class="all">
+
+
+<div class="heading"><div class="headingDiv">LIVE HTML EDITOR</div>
+    
+    
+<div id="floatingMenu" >
+<select title="Small settings menu..." name="selector" id="toolbarMenu">
+    <option value="">⁝</option>
+    <option value="external">External File</option>
+    <option value="generate">Generate Basic HTML</option>
+    <option value="download">Download as HTML</option>
+    <option value="fontPlus">Change Font-size </option>
+    <option value="wrdWrp">Word Wrap</option>
+    <option value="hideTB">Hide\Show Toggle Buttons</option>
+    <option value="darkMode">Night Mode 🌙</option>
+    <option value="credits"> Credits</option>
+    
+</select>
+</div>
+
+</div>
+
+    <div class="btn-container">
+      <button type="button" class="toggle-btn js-toggle">Toggle JS</button>
+      <button type="button" class="toggle-btn css-toggle">Toggle CSS</button>
+    </div>
+
+    <div id="html-editor" class="editor" contenteditable="true" data-placeholder="HTML CODE HERE..........." spellcheck="false"></div>
+    <div id="js-editor" class="editor" contenteditable="true"   data-placeholder="JS CODE HERE............." spellcheck="false"></div>
+    <div id="css-editor" class="editor" contenteditable="true"  data-placeholder="CSS CODE HERE............" spellcheck="false"></div>
+  </div>
+
+  <div class="btn-exe-container">
+    <button type="button" class="clr-btn">Clear</button>
+    <button type="button" class="execute-btn">Run</button>
+    <button type="button" class="back-btn">BACK</button>
+  </div>
+
+
+  <iframe title="Code result" class="executed" id="executed"></iframe>
+
+
+
+<input placeholder="Pick a file to open..." type="file" id="filePicker" accept=".html,.htm,.txt,.js,.css">
+
+
+
+  <script>
+    const jsToggle = document.querySelector(".js-toggle");
+    const cssToggle = document.querySelector(".css-toggle");
+    const runBtn = document.querySelector(".execute-btn");
+    const clrBtn = document.querySelector(".clr-btn");
+    const backBtn = document.querySelector(".back-btn");
+    const executedFrame = document.getElementById("executed");
+
+    const htmlEditor = document.getElementById("html-editor");
+    const jsEditor = document.getElementById("js-editor");
+    const cssEditor = document.getElementById("css-editor");
+  
+
+    jsToggle.addEventListener("click", () => {
+      jsEditor.style.display = jsEditor.style.display === "block" ? "none" : "block";
+    });
+
+    cssToggle.addEventListener("click", () => {
+      cssEditor.style.display = cssEditor.style.display === "block" ? "none" : "block";
+    });
+
+runBtn.addEventListener("click", () => {
+  const htmlContent = htmlEditor.innerText.trim();
+  const cssContent = cssEditor.innerText.trim();
+  const jsContent = jsEditor.innerText.trim();
+
+
+let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
+
+let toLowSup = surprise.toLowerCase() ;
+
+
+  // easter egg: credits mode
+  if (htmlContent.toLowerCase().includes(toLowSup)) {
+    executedFrame.srcdoc = `
+      <style>
+        body {
+          background:black;
+          color:#0f0;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          height:100vh;
+          font-family:monospace;
+          font-size:22px;
+          text-align:center;
+        }
+        .glitch { animation: blink 0.25s infinite alternate; }
+        @keyframes blink { from { color:#0f0; } to { color:red; } }
+      </style>
+      <div class="glitch">
+        ⚠️ SYSTEM OVERRIDE ⚠️ <br>
+        Unexpected Execution Triggered... <br>
+        Stark Protocol Activated!
+      </div>
+      <script>
+        setTimeout(()=>{
+          document.body.innerHTML = "<h1 style='color:cyan;'>Surprise! 🫡<br>Back to your editor...</h1>";
+        },4000);
+      <\/script>
+    `;
+  } else {
+    // --- your existing code stays same ---
+    let finalCode;
+    const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
+
+    if (isFullHTML) {
+      finalCode = htmlContent;
+    } else {
+      finalCode = `
+        ${htmlContent}
+        <style>${cssContent}</style>
+        <script>${jsContent}<\/script>
+      `;
+    }
+
+    executedFrame.srcdoc = finalCode;
+  }
+
+  // your existing display toggle stays same
+  document.querySelector(".all").style.display = "none";
+  executedFrame.style.display = "block";
+  clrBtn.style.display = "none";
+  runBtn.style.display = "none";
+  backBtn.style.display = "inline-block";
+});
+
+    backBtn.addEventListener("click", () => {
+      document.querySelector(".all").style.display = "flex";
+      executedFrame.style.display = "none";
+      clrBtn.style.display = "inline-block";
+      runBtn.style.display = "inline-block";
+      backBtn.style.display = "none";
+    });
+
+    clrBtn.addEventListener("click", () => {
+      htmlEditor.innerText = "";
+      jsEditor.innerText = "";
+      cssEditor.innerText = "";
+      executedFrame.srcdoc = "";
+      executedFrame.style.display = "none";
+       jsEditor.style.display = "none";
+      cssEditor.style.display = "none";
+    });
+
+    function downloadAsHTML() {
+      const htmlCode = htmlEditor.innerText;
+      const cssCode = `<style>${cssEditor.innerText}</style>`;
+      const jsCode = `<script>${jsEditor.innerText}<\/script>`;
+      const finalCode = htmlCode + cssCode + jsCode;
+      const fileName = "new.html";
+
+      const blob = new Blob([finalCode], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+
+
+
+
+const filePicker = document.getElementById("filePicker");
+const toolbarMenu = document.getElementById('toolbarMenu');
+
+let valueFont = 0 ;
+let wrapNo = 0 ;
+
+toolbarMenu.addEventListener('change', (e) => {
+  const action = e.target.value;
+
+  if (action === 'external') {
+    filePicker.click(); // your hidden file input
+  } else if (action === 'generate') {
+    htmlEditor.innerText = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Document</title>
+</head>
+<body>
+
+</body>
+</html>`;
+    cssEditor.innerText = '';
+    jsEditor.innerText = '';
+  } else if (action === 'download') {
+    downloadAsHTML(); // existing function
+  }
+
+else if (action === 'hideTB') {
+  const isVisibleJS = getComputedStyle(jsToggle).display !== "none";
+   const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
+
+  jsToggle.style.display = isVisibleJS ? "none" : "block";
+  cssToggle.style.display = isVisibleCSS ? "none" : "block";
+}
+
+
+
+  else if (action === 'credits') {
+  alert("This is an HTML editor created by Stark Industries.\n\nFeel free to use and modify it as you wish!");
+  htmlEditor.innerHTML = `
+    <center><b>CREDITS</b></center>
+    <center>Created by Stark Industries</center>
+    <center>Feel free to use and modify it as you wish!</center>
+    <br>
+    AUTHOR: Aman Kumar Pandey <br>
+    VERSION: 1.0 <br>
+    DATE: 2023-10-01 <br>
+    LICENSE: MIT License <br>
+    CO-PARTNER(DEBUGGER):ChatGPT <br>
+    LEGAL_NOTE: <b>ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;</b>
+  `;
+}
+
+else if (action === 'darkMode') {
+  document.body.classList.toggle("nightmode");
+
+  // menu option ka text bhi switch ho jaye
+  const option = e.target.querySelector("option[value='darkMode']");
+  if (document.body.classList.contains("nightmode")) {
+    option.textContent = "Light Mode ☀️";
+  } else {
+    option.textContent = "Night Mode 🌙";
+  }
+}
+
+else if (action === 'fontPlus') {
+
+  
+
+     if (valueFont === 0 ){
+       htmlEditor.style.fontSize = "15px" ;
+       valueFont++ ;
+     }
+   else if(valueFont === 1){
+       htmlEditor.style.fontSize = "18px" ;
+       valueFont++ ;
+     }
+
+      else if(valueFont === 2){
+       htmlEditor.style.fontSize = "25px" ;
+       valueFont++ ;
+     }
+
+      else if(valueFont === 3){
+       htmlEditor.style.fontSize = "30px" ;
+       valueFont++ ;
+     }
+
+      else if(valueFont === 4){
+       htmlEditor.style.fontSize = "medium" ;
+       valueFont = 0 ;
+     }
+
+     else {
+      htmlEditor.style.fontSize = '' ;
+     }
+  
+}
+
+else if (action === 'wrdWrp') {
+  const editors = document.querySelectorAll(".editor");
+
+  if (wrapNo === 1) {
+    editors.forEach(ed => {
+      ed.style.whiteSpace = "pre-wrap";   // line breaks allowed
+      ed.style.wordBreak = "break-word";  // break long words if needed
+      ed.style.overflowX = "hidden";      // horizontal scroll hatao
+    });
+    wrapNo = 0;
+  } else {
+    editors.forEach(ed => {
+      ed.style.whiteSpace = "pre";        // preserve line breaks, no wrapping
+      ed.style.wordBreak = "normal";      // long words won't break
+      ed.style.overflowX = "auto";        // horizontal scroll on
+    });
+    wrapNo = 1;
+  }
+}
+
+
+
+
+
+  // reset menu back to ⋮
+  toolbarMenu.value = '';
+});
+
+    filePicker.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    htmlEditor.innerText = event.target.result;
+  };
+  reader.readAsText(file);
+});
+
+
+// force plain text paste in all editor divs
+document.querySelectorAll(".editor").forEach(editor => {
+  editor.addEventListener("paste", function(e) {
+  e.preventDefault();
+  const text = e.clipboardData.getData("text/plain");
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+  selection.deleteFromDocument();
+  selection.getRangeAt(0).insertNode(document.createTextNode(text));
+});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>
