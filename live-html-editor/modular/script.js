@@ -1,13 +1,40 @@
-const htmlEditor = document.getElementById("htmlEditor");
-const cssEditor = document.getElementById("cssEditor");
-const jsEditor = document.getElementById("jsEditor");
 
-  const preview = document.getElementById("preview");
-  const runBtn = document.getElementById("run");
-  const clearBtn = document.getElementById("clear");
-  const backBtn = document.getElementById("back");
+    const htmlEditor = document.getElementById("htmlEditor");
+  const cssEditor = document.getElementById("cssEditor");
+   const jsEditor = document.getElementById("jsEditor");
+    const cssBox = document.getElementById("cssBox");
+    const jsBox = document.getElementById("jsBox");
+const cssToggle = document.getElementById("cssToggle");
+  const jsToggle = document.getElementById("jsToggle");
+   const preview = document.getElementById("preview");
+
+
+    const runBtn = document.getElementById("run");
+    const clearBtn = document.getElementById("clear");
+    const backBtn = document.getElementById("back");
+
+    cssToggle.onclick = () => {
+
+      if (cssBox.style.display === "none") {
+        cssBox.style.display = "block";
+      } else {
+        cssBox.style.display = "none";
+      }
+
+    };
+
+    jsToggle.onclick = () => {
+
+      if (jsBox.style.display === "none") {
+        jsBox.style.display = "block";
+      } else {
+        jsBox.style.display = "none";
+      }
+
+    };
 
     runBtn.onclick = () => {
+
       const finalCode = `
         ${htmlEditor.value}
 
@@ -22,13 +49,11 @@ const jsEditor = document.getElementById("jsEditor");
 
       preview.srcdoc = finalCode;
 
-      htmlEditor.style.display = "none";
-      cssEditor.style.display = "none";
-      jsEditor.style.display = "none";
-
-      document.querySelectorAll(".editor-title").forEach(title => {
-        title.style.display = "none";
+      document.querySelectorAll(".editor-box").forEach(box => {
+        box.style.display = "none";
       });
+
+      document.querySelector(".toggle-buttons").style.display = "none";
 
       preview.style.display = "block";
 
@@ -39,13 +64,11 @@ const jsEditor = document.getElementById("jsEditor");
 
     backBtn.onclick = () => {
 
-      htmlEditor.style.display = "block";
-      cssEditor.style.display = "block";
-      jsEditor.style.display = "block";
-
-      document.querySelectorAll(".editor-title").forEach(title => {
-        title.style.display = "block";
+      document.querySelectorAll(".editor-box").forEach(box => {
+        box.style.display = "block";
       });
+
+      document.querySelector(".toggle-buttons").style.display = "flex";
 
       preview.style.display = "none";
 

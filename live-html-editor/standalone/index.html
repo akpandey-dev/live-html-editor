@@ -7,7 +7,7 @@
 
   <style>
 
-    body {
+    body{
       background-color: darkgrey;
       margin: 3vh;
       border: 5px solid black;
@@ -18,7 +18,7 @@
       font-family: Arial, sans-serif;
     }
 
-    .container {
+    .container{
       width: 100%;
       max-width: 1000px;
       display: flex;
@@ -27,7 +27,7 @@
       gap: 2vh;
     }
 
-    .title {
+    .title{
       width: 100%;
       border: 2px solid black;
       background: white;
@@ -42,11 +42,32 @@
       font-size: 28px;
     }
 
+    .toggle-buttons {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .toggle-btn {
+      color: white;
+      background-color: darkgreen;
+      border: none;
+      padding: 12px 20px;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .toggle-btn:hover{
+      background-color: green;
+    }
+
     .editor-box {
       width: 100%;
     }
 
-    .editor-title {
+    .editor-title{
       background: black;
       color: white;
       padding: 8px;
@@ -56,7 +77,7 @@
       font-family: monospace;
     }
 
-    textarea {
+    textarea{
       width: 100%;
       min-height: 220px;
       resize: vertical;
@@ -69,7 +90,7 @@
       outline: none;
     }
 
-    iframe {
+    iframe{
       width: 100%;
       min-height: 70vh;
       background: white;
@@ -77,9 +98,9 @@
       display: none;
     }
 
-    .buttons {
+    .buttons{
       position: fixed;
-      bottom: 12px;
+      bottom: 8px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -87,17 +108,17 @@
       z-index: 1000;
     }
 
-    button {
+    .buttons button{
       color: white;
       background-color: darkblue;
       border: none;
-      padding: 12px 18px;
+      padding: 10px 14px;
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
     }
 
-    button:hover {
+    .buttons button:hover{
       background-color: green;
     }
 
@@ -111,12 +132,17 @@
       <h1>LIVE HTML EDITOR</h1>
     </marquee>
 
+    <div class="toggle-buttons">
+      <button class="toggle-btn" id="cssToggle">Toggle CSS</button>
+      <button class="toggle-btn" id="jsToggle">Toggle JS</button>
+    </div>
+
     <div class="editor-box">
       <div class="editor-title">HTML</div>
       <textarea id="htmlEditor"><h1>Hello World</h1></textarea>
     </div>
 
-    <div class="editor-box">
+    <div class="editor-box" id="cssBox">
       <div class="editor-title">CSS</div>
       <textarea id="cssEditor">
 body{
@@ -126,7 +152,7 @@ body{
       </textarea>
     </div>
 
-    <div class="editor-box">
+    <div class="editor-box" id="jsBox">
       <div class="editor-title">JAVASCRIPT</div>
       <textarea id="jsEditor">
 console.log("Live HTML Editor");
@@ -144,16 +170,39 @@ console.log("Live HTML Editor");
   </div>
 
   <script>
-
     const htmlEditor = document.getElementById("htmlEditor");
-    const cssEditor = document.getElementById("cssEditor");
-    const jsEditor = document.getElementById("jsEditor");
+  const cssEditor = document.getElementById("cssEditor");
+   const jsEditor = document.getElementById("jsEditor");
+    const cssBox = document.getElementById("cssBox");
+    const jsBox = document.getElementById("jsBox");
+const cssToggle = document.getElementById("cssToggle");
+  const jsToggle = document.getElementById("jsToggle");
+   const preview = document.getElementById("preview");
 
-    const preview = document.getElementById("preview");
 
     const runBtn = document.getElementById("run");
     const clearBtn = document.getElementById("clear");
     const backBtn = document.getElementById("back");
+
+    cssToggle.onclick = () => {
+
+      if (cssBox.style.display === "none") {
+        cssBox.style.display = "block";
+      } else {
+        cssBox.style.display = "none";
+      }
+
+    };
+
+    jsToggle.onclick = () => {
+
+      if (jsBox.style.display === "none") {
+        jsBox.style.display = "block";
+      } else {
+        jsBox.style.display = "none";
+      }
+
+    };
 
     runBtn.onclick = () => {
 
@@ -171,13 +220,11 @@ console.log("Live HTML Editor");
 
       preview.srcdoc = finalCode;
 
-      htmlEditor.style.display = "none";
-      cssEditor.style.display = "none";
-      jsEditor.style.display = "none";
-
-      document.querySelectorAll(".editor-title").forEach(title => {
-        title.style.display = "none";
+      document.querySelectorAll(".editor-box").forEach(box => {
+        box.style.display = "none";
       });
+
+      document.querySelector(".toggle-buttons").style.display = "none";
 
       preview.style.display = "block";
 
@@ -188,13 +235,11 @@ console.log("Live HTML Editor");
 
     backBtn.onclick = () => {
 
-      htmlEditor.style.display = "block";
-      cssEditor.style.display = "block";
-      jsEditor.style.display = "block";
-
-      document.querySelectorAll(".editor-title").forEach(title => {
-        title.style.display = "block";
+      document.querySelectorAll(".editor-box").forEach(box => {
+        box.style.display = "block";
       });
+
+      document.querySelector(".toggle-buttons").style.display = "flex";
 
       preview.style.display = "none";
 

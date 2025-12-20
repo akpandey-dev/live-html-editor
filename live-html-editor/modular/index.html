@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live HTML Editor</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,12 +14,17 @@
       <h1>LIVE HTML EDITOR</h1>
     </marquee>
 
+    <div class="toggle-buttons">
+      <button class="toggle-btn" id="cssToggle">Toggle CSS</button>
+      <button class="toggle-btn" id="jsToggle">Toggle JS</button>
+    </div>
+
     <div class="editor-box">
       <div class="editor-title">HTML</div>
       <textarea id="htmlEditor"><h1>Hello World</h1></textarea>
     </div>
 
-    <div class="editor-box">
+    <div class="editor-box" id="cssBox">
       <div class="editor-title">CSS</div>
       <textarea id="cssEditor">
 body{
@@ -30,7 +34,7 @@ body{
       </textarea>
     </div>
 
-    <div class="editor-box">
+    <div class="editor-box" id="jsBox">
       <div class="editor-title">JAVASCRIPT</div>
       <textarea id="jsEditor">
 console.log("Live HTML Editor");
