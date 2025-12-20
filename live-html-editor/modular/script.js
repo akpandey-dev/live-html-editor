@@ -1,15 +1,35 @@
+const htmlEditor = document.getElementById("htmlEditor");
+const cssEditor = document.getElementById("cssEditor");
+const jsEditor = document.getElementById("jsEditor");
 
-const editor = document.getElementById("editor");
-const preview = document.getElementById("preview");
-
-    const runBtn = document.getElementById("run");
-    const clearBtn = document.getElementById("clear");
-    const backBtn = document.getElementById("back");
+  const preview = document.getElementById("preview");
+  const runBtn = document.getElementById("run");
+  const clearBtn = document.getElementById("clear");
+  const backBtn = document.getElementById("back");
 
     runBtn.onclick = () => {
-    preview.srcdoc = editor.value;
+      const finalCode = `
+        ${htmlEditor.value}
 
-      editor.style.display = "none";
+        <style>
+        ${cssEditor.value}
+        </style>
+
+        <script>
+        ${jsEditor.value}
+        <\/script>
+      `;
+
+      preview.srcdoc = finalCode;
+
+      htmlEditor.style.display = "none";
+      cssEditor.style.display = "none";
+      jsEditor.style.display = "none";
+
+      document.querySelectorAll(".editor-title").forEach(title => {
+        title.style.display = "none";
+      });
+
       preview.style.display = "block";
 
       runBtn.style.display = "none";
@@ -18,7 +38,15 @@ const preview = document.getElementById("preview");
     };
 
     backBtn.onclick = () => {
-      editor.style.display = "block";
+
+      htmlEditor.style.display = "block";
+      cssEditor.style.display = "block";
+      jsEditor.style.display = "block";
+
+      document.querySelectorAll(".editor-title").forEach(title => {
+        title.style.display = "block";
+      });
+
       preview.style.display = "none";
 
       runBtn.style.display = "inline-block";
@@ -27,7 +55,12 @@ const preview = document.getElementById("preview");
     };
 
     clearBtn.onclick = () => {
-  editor.value = "";
-    preview.srcdoc = "";
+
+      htmlEditor.value = "";
+      cssEditor.value = "";
+      jsEditor.value = "";
+
+      preview.srcdoc = "";
     };
+
   

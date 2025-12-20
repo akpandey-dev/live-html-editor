@@ -10,11 +10,32 @@
 <body>
 
   <div class="container">
+
     <marquee class="title" direction="right">
       <h1>LIVE HTML EDITOR</h1>
     </marquee>
 
-    <textarea id="editor"><h1>Hello World</h1></textarea>
+    <div class="editor-box">
+      <div class="editor-title">HTML</div>
+      <textarea id="htmlEditor"><h1>Hello World</h1></textarea>
+    </div>
+
+    <div class="editor-box">
+      <div class="editor-title">CSS</div>
+      <textarea id="cssEditor">
+body{
+  background:black;
+  color:white;
+}
+      </textarea>
+    </div>
+
+    <div class="editor-box">
+      <div class="editor-title">JAVASCRIPT</div>
+      <textarea id="jsEditor">
+console.log("Live HTML Editor");
+      </textarea>
+    </div>
 
     <iframe id="preview"></iframe>
 

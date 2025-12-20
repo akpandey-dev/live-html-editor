@@ -1,5 +1,4 @@
-
-    body {
+body{
       background-color: darkgrey;
       margin: 3vh;
       border: 5px solid black;
@@ -10,7 +9,7 @@
       font-family: Arial, sans-serif;
     }
 
-  .container{
+    .container{
       width: 100%;
       max-width: 1000px;
       display: flex;
@@ -28,14 +27,28 @@
       text-align: center;
     }
 
-    h1{
+    h1 {
       margin: 0;
       color: blueviolet;
-      font-size: 28px;}
+      font-size: 28px;
+    }
+
+    .editor-box 
+    {width: 100%;}
+
+  .editor-title {
+      background: black;
+      color: white;
+      padding: 8px;
+      font-size: 14px;
+      border: 2px solid black;
+      border-bottom: none;
+      font-family: monospace;
+    }
 
     textarea {
       width: 100%;
-      min-height: 55vh;
+      min-height: 220px;
       resize: vertical;
       padding: 10px;
       box-sizing: border-box;
