@@ -1,5 +1,7 @@
 # Live_HTML_Editor
 A lightweight, interactive HTML editor that lets you write, edit, and instantly preview HTML content. Supports live preview, dark/light mode, font size customization, and HTML download. Perfect for experimenting with web layouts or building pages on the fly.
+
+
 # Live HTML Editor – Web Version
 
 A lightweight, browser-based HTML/CSS/JS editor built using pure HTML, CSS, and JavaScript.  
@@ -25,15 +27,10 @@ Designed for learners, hobbyists, and coders who want to experiment directly in 
 
 ---
 
-## Project Structure
+### Repository Structure
 
-Live_HTML_Editor_Web/
-├─ README.md
-├─ .gitignore
-└─ Versions/
-
-
-All development versions are stored inside the `Versions` directory for clean versioning.
+All project versions are organized under the `Versions/` directory.  
+Each version folder contains its own documentation explaining available formats, features, and usage instructions.
 
 ---
 
@@ -41,7 +38,7 @@ All development versions are stored inside the `Versions` directory for clean ve
 
 No installation required.
 
-1. Open the `index.html` file in any modern browser
+1. Navigate to a version inside the `Versions` directory and open a file there.
 2. Start typing HTML, CSS, and JS in the respective editors
 3. Click **Run** to see output
 4. Use **Back** to return to editors
