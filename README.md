@@ -2,13 +2,14 @@
 
 A lightweight, browser-based, interactive HTML editor built using pure HTML, CSS, and JavaScript, that lets you write, edit, and instantly preview HTML content.
 
-This project started as a small experimental editor for quickly testing HTML directly inside the browser without needing any external setup or installation. The editor focuses on simplicity, fast execution, and a clean workflow.
+This project is a experimental editor for quickly testing HTML directly inside the browser without needing any external setup or installation. The editor focuses on simplicity, fast execution, and a clean workflow.
 
 ## Features
 
 - HTML editing
 - CSS editing
 - JavaScript editing
+- Separate editors for JS, CSS and HTML
 - Live preview
 - Preview box hide and show toggle
 - Simple and lightweight interface

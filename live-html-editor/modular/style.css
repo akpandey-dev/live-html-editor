@@ -1,5 +1,5 @@
 
-    body{
+    body {
       background-color: darkgrey;
       margin: 3vh;
       border: 5px solid black;
@@ -7,110 +7,135 @@
       padding: 4px;
       display: flex;
       justify-content: center;
-      font-family: Arial, sans-serif;
     }
-
-    .container{
-      width: 100%;
-      max-width: 1000px;
+    .all {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2vh;
-    }
-
-    .title{
       width: 100%;
-      border: 2px solid black;
-      background: white;
-      padding: 8px;
+      max-width: 1000px;
       box-sizing: border-box;
-      text-align: center;
     }
 
-    h1 {
+
+.marquee {
+  border: 2px solid black;
+  padding: 3px;
+  width: 100%;      
+  box-sizing: border-box;
+  position: relative; 
+}
+
+
+    marquee {
       margin: 0;
       color: blueviolet;
-      font-size: 28px;
+      font-family: monospace;
     }
-
-    .toggle-buttons {
-      width: 100%;
+    .btn-container {
       display: flex;
+      flex-direction: row;
       justify-content: center;
-      gap: 14px;
+      flex-wrap: wrap;
+      gap: 1rem;
+      width: 100%;
     }
-
     .toggle-btn {
       color: white;
       background-color: darkgreen;
+      width: clamp(120px, 40%, 250px);
+      height: clamp(30px, 6vh, 60px); 
       border: none;
-      padding: 12px 20px;
-      font-size: 15px;
+      font-size: clamp(12px, 4vw, 22px);
+      white-space: nowrap;
       border-radius: 6px;
+      box-shadow: 0 5px #0a3d0a;
+      transition: all 0.15s ease-in-out;
       cursor: pointer;
+      margin: 2%;
+      display: block;
     }
-
-    .toggle-btn:hover{
-      background-color: green;
+    .toggle-btn:hover {
+      background-color: #1e7b1e;
     }
-
-    .editor-box {
-      width: 100%;
+    .toggle-btn:active {
+      box-shadow: 0 2px #0a3d0a;
+      transform: translateY(3px);
     }
-
-    .editor-title{
-      background: black;
-      color: white;
-      padding: 8px;
-      font-size: 14px;
+    .editor {
       border: 2px solid black;
-      border-bottom: none;
-      font-family: monospace;
-    }
-
-    textarea{
       width: 100%;
-      min-height: 220px;
-      resize: vertical;
+      min-height: 50vh;
+      max-height: 65vh;
+      background: white;
       padding: 10px;
       box-sizing: border-box;
+      overflow-y: auto;
       font-family: monospace;
-      font-size: 15px;
-      border: 2px solid black;
-      background: white;
+      white-space: pre-wrap;
       outline: none;
+      display: none;
+      tab-size: 2;
+    
+      
     }
-
-    iframe{
-      width: 100%;
-      min-height: 70vh;
-      background: white;
+    .executed {
       border: 5px solid white;
+      width: 100%;
+      height: auto;
+      margin-top: 1rem;
+      min-height: 200px;
+      background: white;
       display: none;
     }
-
-    .buttons{
+    @media (max-width: 500px) {
+      body {
+        margin: 1vh;
+        border-width: 3px;
+      }
+      .all {
+        padding: 0.5rem;
+        gap: 1vh;
+      }
+      .toggle-btn {
+        width: 100%;
+      }
+    }
+    .btn-exe-container {
       position: fixed;
-      bottom: 8px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 12px;
+      gap: 1rem;
       z-index: 1000;
     }
 
-    .buttons button{
-      color: white;
-      background-color: darkblue;
+    .clr-btn,
+    .execute-btn,
+    .back-btn {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
       border: none;
-      padding: 10px 14px;
-      font-size: 16px;
+      background: darkblue;
+      color: white;
       border-radius: 6px;
       cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    .clr-btn:hover,
+    .execute-btn:hover,
+    .back-btn:hover {
+      background: green;
     }
 
-    .buttons button:hover{
-      background-color: green;
-    }
+
+.editor:empty:before {
+  content: attr(data-placeholder);
+  color: rgba(0,0,0,0.3); /* faint like a watermark */
+  pointer-events: none;     
+}
+
+
 

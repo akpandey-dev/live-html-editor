@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Live HTML Editor</title>
-
   <style>
-
-    body{
+    body {
       background-color: darkgrey;
       margin: 3vh;
       border: 5px solid black;
@@ -15,249 +13,247 @@
       padding: 4px;
       display: flex;
       justify-content: center;
-      font-family: Arial, sans-serif;
     }
-
-    .container{
-      width: 100%;
-      max-width: 1000px;
+    .all {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2vh;
-    }
-
-    .title{
       width: 100%;
-      border: 2px solid black;
-      background: white;
-      padding: 8px;
+      max-width: 1000px;
       box-sizing: border-box;
-      text-align: center;
     }
 
-    h1 {
+
+.marquee {
+  border: 2px solid black;
+  padding: 3px;
+  width: 100%;      
+  box-sizing: border-box;
+  position: relative; 
+}
+
+
+    marquee {
       margin: 0;
       color: blueviolet;
-      font-size: 28px;
+      font-family: monospace;
     }
-
-    .toggle-buttons {
-      width: 100%;
+    .btn-container {
       display: flex;
+      flex-direction: row;
       justify-content: center;
-      gap: 14px;
+      flex-wrap: wrap;
+      gap: 1rem;
+      width: 100%;
     }
-
     .toggle-btn {
       color: white;
       background-color: darkgreen;
+      width: clamp(120px, 40%, 250px);
+      height: clamp(30px, 6vh, 60px); 
       border: none;
-      padding: 12px 20px;
-      font-size: 15px;
+      font-size: clamp(12px, 4vw, 22px);
+      white-space: nowrap;
       border-radius: 6px;
+      box-shadow: 0 5px #0a3d0a;
+      transition: all 0.15s ease-in-out;
       cursor: pointer;
+      margin: 2%;
+      display: block;
     }
-
-    .toggle-btn:hover{
-      background-color: green;
+    .toggle-btn:hover {
+      background-color: #1e7b1e;
     }
-
-    .editor-box {
-      width: 100%;
+    .toggle-btn:active {
+      box-shadow: 0 2px #0a3d0a;
+      transform: translateY(3px);
     }
-
-    .editor-title{
-      background: black;
-      color: white;
-      padding: 8px;
-      font-size: 14px;
+    .editor {
       border: 2px solid black;
-      border-bottom: none;
-      font-family: monospace;
-    }
-
-    textarea{
       width: 100%;
-      min-height: 220px;
-      resize: vertical;
+      min-height: 50vh;
+      max-height: 65vh;
+      background: white;
       padding: 10px;
       box-sizing: border-box;
+      overflow-y: auto;
       font-family: monospace;
-      font-size: 15px;
-      border: 2px solid black;
-      background: white;
+      white-space: pre-wrap;
       outline: none;
+      display: none;
+      tab-size: 2;
+    
+      
     }
-
-    iframe{
-      width: 100%;
-      min-height: 70vh;
-      background: white;
+    .executed {
       border: 5px solid white;
+      width: 100%;
+      height: auto;
+      margin-top: 1rem;
+      min-height: 200px;
+      background: white;
       display: none;
     }
-
-    .buttons{
+    @media (max-width: 500px) {
+      body {
+        margin: 1vh;
+        border-width: 3px;
+      }
+      .all {
+        padding: 0.5rem;
+        gap: 1vh;
+      }
+      .toggle-btn {
+        width: 100%;
+      }
+    }
+    .btn-exe-container {
       position: fixed;
-      bottom: 8px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 12px;
+      gap: 1rem;
       z-index: 1000;
     }
 
-    .buttons button{
-      color: white;
-      background-color: darkblue;
+    .clr-btn,
+    .execute-btn,
+    .back-btn {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
       border: none;
-      padding: 10px 14px;
-      font-size: 16px;
+      background: darkblue;
+      color: white;
       border-radius: 6px;
       cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    .clr-btn:hover,
+    .execute-btn:hover,
+    .back-btn:hover {
+      background: green;
     }
 
-    .buttons button:hover{
-      background-color: green;
-    }
+
+.editor:empty:before {
+  content: attr(data-placeholder);
+  color: rgba(0,0,0,0.3); /* faint like a watermark */
+  pointer-events: none;    
+}
+
+
+
+
+
+
+
+
 
   </style>
 </head>
 <body>
+  <div class="all">
+    <div class="marquee"><marquee direction="right">LIVE HTML EDITOR (DIV based)</marquee>
+</div>
 
-  <div class="container">
-
-    <marquee class="title" direction="right">
-      <h1>LIVE HTML EDITOR</h1>
-    </marquee>
-
-    <div class="toggle-buttons">
-      <button class="toggle-btn" id="cssToggle">Toggle CSS</button>
-      <button class="toggle-btn" id="jsToggle">Toggle JS</button>
+    <div class="btn-container">
+      <button class="toggle-btn js-toggle">Toggle JS</button>
+      <button class="toggle-btn css-toggle">Toggle CSS</button>
     </div>
 
-    <div class="editor-box">
-      <div class="editor-title">HTML</div>
-      <textarea id="htmlEditor"><h1>Hello World</h1></textarea>
-    </div>
-
-    <div class="editor-box" id="cssBox">
-      <div class="editor-title">CSS</div>
-      <textarea id="cssEditor">
-body{
-  background:black;
-  color:white;
-}
-      </textarea>
-    </div>
-
-    <div class="editor-box" id="jsBox">
-      <div class="editor-title">JAVASCRIPT</div>
-      <textarea id="jsEditor">
-console.log("Live HTML Editor");
-      </textarea>
-    </div>
-
-    <iframe id="preview"></iframe>
-
+    <div id="html-editor" class="editor" contenteditable="true" data-placeholder="HTML CODE HERE..........." style="display:block;" spellcheck="false"></div>
+    <div id="js-editor" class="editor" contenteditable="true"   data-placeholder="JS CODE HERE............." spellcheck="false"></div>
+    <div id="css-editor" class="editor" contenteditable="true"  data-placeholder="CSS CODE HERE............" spellcheck="false"></div>
   </div>
 
-  <div class="buttons">
-    <button id="clear">Clear</button>
-    <button id="run">Run</button>
-    <button id="back" style="display:none;">Back</button>
+  <div class="btn-exe-container">
+    <button type="button" class="clr-btn">Clear</button>
+    <button type="button" class="execute-btn">Run</button>
+    <button type="button" class="back-btn" style="display:none;">BACK</button>
   </div>
+
+
+  <iframe class="executed" id="executed" style="display:none;"></iframe>
+
 
   <script>
-    const htmlEditor = document.getElementById("htmlEditor");
-  const cssEditor = document.getElementById("cssEditor");
-   const jsEditor = document.getElementById("jsEditor");
-    const cssBox = document.getElementById("cssBox");
-    const jsBox = document.getElementById("jsBox");
-const cssToggle = document.getElementById("cssToggle");
-  const jsToggle = document.getElementById("jsToggle");
-   const preview = document.getElementById("preview");
+    const jsToggle = document.querySelector(".js-toggle");
+    const cssToggle = document.querySelector(".css-toggle");
+    const runBtn = document.querySelector(".execute-btn");
+    const clrBtn = document.querySelector(".clr-btn");
+    const backBtn = document.querySelector(".back-btn");
+    const executedFrame = document.getElementById("executed");
+
+    const htmlEditor = document.getElementById("html-editor");
+    const jsEditor = document.getElementById("js-editor");
+    const cssEditor = document.getElementById("css-editor");
+  
+
+    jsToggle.addEventListener("click", () => {
+      jsEditor.style.display = jsEditor.style.display === "block" ? "none" : "block";
+    });
+
+    cssToggle.addEventListener("click", () => {
+      cssEditor.style.display = cssEditor.style.display === "block" ? "none" : "block";
+    });
+
+runBtn.addEventListener("click", () => {
+  const htmlContent = htmlEditor.innerText.trim();
+  const cssContent = cssEditor.innerText.trim();
+  const jsContent = jsEditor.innerText.trim();
 
 
-    const runBtn = document.getElementById("run");
-    const clearBtn = document.getElementById("clear");
-    const backBtn = document.getElementById("back");
 
-    cssToggle.onclick = () => {
+    let finalCode;
+    const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
 
-      if (cssBox.style.display === "none") {
-        cssBox.style.display = "block";
-      } else {
-        cssBox.style.display = "none";
-      }
-
-    };
-
-    jsToggle.onclick = () => {
-
-      if (jsBox.style.display === "none") {
-        jsBox.style.display = "block";
-      } else {
-        jsBox.style.display = "none";
-      }
-
-    };
-
-    runBtn.onclick = () => {
-
-      const finalCode = `
-        ${htmlEditor.value}
-
-        <style>
-        ${cssEditor.value}
-        </style>
-
-        <script>
-        ${jsEditor.value}
-        <\/script>
+    if (isFullHTML) {
+      finalCode = htmlContent;
+    } else {
+      finalCode = `
+        ${htmlContent}
+        <style>${cssContent}</style>
+        <script>${jsContent}<\/script>
       `;
+    }
 
-      preview.srcdoc = finalCode;
+    executedFrame.srcdoc = finalCode;
+  
+  document.querySelector(".all").style.display = "none";
+  executedFrame.style.display = "block";
+  clrBtn.style.display = "none";
+  runBtn.style.display = "none";
+  backBtn.style.display = "inline-block";
+});
 
-      document.querySelectorAll(".editor-box").forEach(box => {
-        box.style.display = "none";
-      });
-
-      document.querySelector(".toggle-buttons").style.display = "none";
-
-      preview.style.display = "block";
-
-      runBtn.style.display = "none";
-      clearBtn.style.display = "none";
-      backBtn.style.display = "inline-block";
-    };
-
-    backBtn.onclick = () => {
-
-      document.querySelectorAll(".editor-box").forEach(box => {
-        box.style.display = "block";
-      });
-
-      document.querySelector(".toggle-buttons").style.display = "flex";
-
-      preview.style.display = "none";
-
+    backBtn.addEventListener("click", () => {
+      document.querySelector(".all").style.display = "flex";
+      executedFrame.style.display = "none";
+      clrBtn.style.display = "inline-block";
       runBtn.style.display = "inline-block";
-      clearBtn.style.display = "inline-block";
       backBtn.style.display = "none";
-    };
+    });
 
-    clearBtn.onclick = () => {
+    clrBtn.addEventListener("click", () => {
+      htmlEditor.innerText = "";
+      jsEditor.innerText = "";
+      cssEditor.innerText = "";
+      executedFrame.srcdoc = "";
+      executedFrame.style.display = "none";
+       jsEditor.style.display = "none";
+      cssEditor.style.display = "none";
+    });
 
-      htmlEditor.value = "";
-      cssEditor.value = "";
-      jsEditor.value = "";
 
-      preview.srcdoc = "";
-    };
+
+
+
+
+
+
 
   </script>
-
 </body>
 </html>
