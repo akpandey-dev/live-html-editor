@@ -26,6 +26,8 @@ runBtn.addEventListener("click", () => {
 
 
 
+
+
     let finalCode;
     const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
 
@@ -67,11 +69,62 @@ runBtn.addEventListener("click", () => {
     });
 
 
+    function downloadAsHTML() {
+      const htmlCode = htmlEditor.innerText;
+      const cssCode = `<style>${cssEditor.innerText}</style>`;
+      const jsCode = `<script>${jsEditor.innerText}<\/script>`;
+      const finalCode = htmlCode + cssCode + jsCode;
+      const fileName = "new.html";
+
+      const blob = new Blob([finalCode], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+
+const filePicker = document.getElementById("filePicker");
+const toolbarMenu = document.getElementById('toolbarMenu');
+
+
+
+toolbarMenu.addEventListener('change', (e) => {
+  const action = e.target.value;
+
+  if (action === 'external') {
+    filePicker.click(); // hidden file input
+  }  else if (action === 'download') {
+    downloadAsHTML(); 
+  }
+
+else if (action === 'hideTB') {
+  const isVisibleJS = getComputedStyle(jsToggle).display !== "none";
+   const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
+
+  jsToggle.style.display = isVisibleJS ? "none" : "block";
+  cssToggle.style.display = isVisibleCSS ? "none" : "block";
+}
 
 
 
 
+  toolbarMenu.value = '';
+});
 
+    filePicker.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    htmlEditor.innerText = event.target.result;
+  };
+  reader.readAsText(file);
+});
 
 
   

@@ -19,15 +19,26 @@
     }
 
 
-.marquee {
+.head {
   border: 2px solid black;
   padding: 3px;
   width: 100%;      
   box-sizing: border-box;
-  position: relative; 
+  position: relative; /* important */
 }
 
-
+#floatingMenu {
+  position: absolute;
+  top: 50%;
+  right: 0.5vh; 
+  transform: translateY(-50%); /* center vertically */
+  z-index: 9999;
+  width: 4vh;
+  height: 4vh;
+  background-color: darkgray;
+  border: 1px solid black;
+  border-radius: 50%;
+}
     marquee {
       margin: 0;
       color: blueviolet;
@@ -111,7 +122,6 @@
       gap: 1rem;
       z-index: 1000;
     }
-
     .clr-btn,
     .execute-btn,
     .back-btn {
@@ -130,12 +140,8 @@
       background: green;
     }
 
-
 .editor:empty:before {
   content: attr(data-placeholder);
   color: rgba(0,0,0,0.3); /* faint like a watermark */
   pointer-events: none;     
 }
-
-
-
