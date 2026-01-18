@@ -9,7 +9,7 @@ It focuses on **direct browser-based learning**, live experimentation, and light
 
 ### 1. Single-file Version (`single-file/`)
 
-**HTML_Editor.html**
+**live-html-editor.html**
 
 - Contains HTML, CSS, and JavaScript in one file
 - Fully portable and works offline
