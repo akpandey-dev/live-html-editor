@@ -27,7 +27,6 @@ runBtn.addEventListener("click", () => {
 
 
 
-
     let finalCode;
     const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
 
@@ -43,6 +42,7 @@ runBtn.addEventListener("click", () => {
 
     executedFrame.srcdoc = finalCode;
   
+
   document.querySelector(".all").style.display = "none";
   executedFrame.style.display = "block";
   clrBtn.style.display = "none";
@@ -68,7 +68,6 @@ runBtn.addEventListener("click", () => {
       cssEditor.style.display = "none";
     });
 
-
     function downloadAsHTML() {
       const htmlCode = htmlEditor.innerText;
       const cssCode = `<style>${cssEditor.innerText}</style>`;
@@ -88,17 +87,35 @@ runBtn.addEventListener("click", () => {
     }
 
 
+
+
+
 const filePicker = document.getElementById("filePicker");
 const toolbarMenu = document.getElementById('toolbarMenu');
 
-
+let valueFont = 0 ;
+let wrapNo = 0 ;
 
 toolbarMenu.addEventListener('change', (e) => {
   const action = e.target.value;
 
   if (action === 'external') {
-    filePicker.click(); // hidden file input
-  }  else if (action === 'download') {
+    filePicker.click(); 
+  } else if (action === 'generate') {
+    htmlEditor.innerText = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Document</title>
+</head>
+<body>
+
+</body>
+</html>`;
+    cssEditor.innerText = '';
+    jsEditor.innerText = '';
+  } else if (action === 'download') {
     downloadAsHTML(); 
   }
 
@@ -110,7 +127,59 @@ else if (action === 'hideTB') {
   cssToggle.style.display = isVisibleCSS ? "none" : "block";
 }
 
+else if (action === 'fontPlus') {
 
+  
+
+     if (valueFont === 0 ){
+       htmlEditor.style.fontSize = "15px" ;
+       valueFont++ ;
+     }
+   else if(valueFont === 1){
+       htmlEditor.style.fontSize = "18px" ;
+       valueFont++ ;
+     }
+
+      else if(valueFont === 2){
+       htmlEditor.style.fontSize = "25px" ;
+       valueFont++ ;
+     }
+
+      else if(valueFont === 3){
+       htmlEditor.style.fontSize = "30px" ;
+       valueFont++ ;
+     }
+
+      else if(valueFont === 4){
+       htmlEditor.style.fontSize = "medium" ;
+       valueFont = 0 ;
+     }
+
+     else {
+      htmlEditor.style.fontSize = '' ;
+     }
+  
+}
+
+else if (action === 'wrdWrp') {
+  const editors = document.querySelectorAll(".editor");
+
+  if (wrapNo === 1) {
+    editors.forEach(ed => {
+      ed.style.whiteSpace = "pre-wrap";   
+      ed.style.wordBreak = "break-word";  
+      ed.style.overflowX = "hidden";      
+    });
+    wrapNo = 0;
+  } else {
+    editors.forEach(ed => {
+      ed.style.whiteSpace = "pre";        
+      ed.style.wordBreak = "normal";     
+      ed.style.overflowX = "auto";        
+    });
+    wrapNo = 1;
+  }
+}
 
 
   toolbarMenu.value = '';
@@ -125,6 +194,31 @@ else if (action === 'hideTB') {
   };
   reader.readAsText(file);
 });
+
+
+// force plain text paste in all editor divs
+document.querySelectorAll(".editor").forEach(editor => {
+  editor.addEventListener("paste", function(e) {
+  e.preventDefault();
+  const text = e.clipboardData.getData("text/plain");
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+  selection.deleteFromDocument();
+  selection.getRangeAt(0).insertNode(document.createTextNode(text));
+});
+
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
   
