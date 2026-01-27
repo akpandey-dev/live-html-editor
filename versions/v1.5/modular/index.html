@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live HTML Editor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="all">
+
+
+<div class="heading"><div class="headingDiv">LIVE HTML EDITOR</div>
+    
+    
+<div id="floatingMenu" >
+<select title="Small settings menu..." name="selector" id="toolbarMenu">
+    <option value="">⁝</option>
+    <option value="external">External File</option>
+    <option value="generate">Generate Basic HTML</option>
+    <option value="download">Download as HTML</option>
+    <option value="fontPlus">Change Font-size </option>
+    <option value="wrdWrp">Word Wrap</option>
+    <option value="hideTB">Hide\Show Toggle Buttons</option>
+    <option value="darkMode">Night Mode 🌙</option>
+    <option value="credits"> Credits</option>
+    
+</select>
+</div>
+
+</div>
+
+    <div class="btn-container">
+      <button type="button" class="toggle-btn js-toggle">Toggle JS</button>
+      <button type="button" class="toggle-btn css-toggle">Toggle CSS</button>
+    </div>
+
+    <div id="html-editor" class="editor" contenteditable="true" data-placeholder="HTML CODE HERE..........." spellcheck="false"></div>
+    <div id="js-editor" class="editor" contenteditable="true"   data-placeholder="JS CODE HERE............." spellcheck="false"></div>
+    <div id="css-editor" class="editor" contenteditable="true"  data-placeholder="CSS CODE HERE............" spellcheck="false"></div>
+  </div>
+
+  <div class="btn-exe-container">
+    <button type="button" class="clr-btn">Clear</button>
+    <button type="button" class="execute-btn">Run</button>
+    <button type="button" class="back-btn">BACK</button>
+  </div>
+
+
+  <iframe title="Code result" class="executed" id="executed"></iframe>
+
+
+
+<input placeholder="Pick a file to open..." type="file" id="filePicker" accept=".html,.htm,.txt,.js,.css">
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>

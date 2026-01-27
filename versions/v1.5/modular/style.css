@@ -1,0 +1,217 @@
+   body {
+      background-color: darkgrey;
+      margin: 3vh;
+      border: 5px solid black;
+      min-height: 90vh;
+      padding: 4px;
+      display: flex;
+      justify-content: center;
+    }
+    .all {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2vh;
+      width: 100%;
+      max-width: 1000px;
+      box-sizing: border-box;
+    }
+
+
+.heading {
+  border: 2px solid black;
+  color: green;
+  padding: 3px;
+  width: 100%;      
+  box-sizing: border-box;
+  position: relative; /* important */
+}
+
+#floatingMenu {
+  position: absolute;
+  top: 50%;
+  right: 0.5vh; /* a bit inside the border*/
+  transform: translateY(-50%); /* center vertically */
+  z-index: 9999;
+  width: 4vh;
+  height: 4vh;
+  background-color: darkgray;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+    .btn-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      width: 100%;
+    }
+    .toggle-btn {
+      color: white;
+      background-color: rgb(44, 148, 44);
+      width: clamp(120px, 40%, 250px);
+      height: clamp(30px, 6vh, 60px); 
+      min-width: 100px;
+      border: none;
+      font-size: clamp(12px, 4vw, 22px);
+      white-space: nowrap;
+      border-radius: 6px;
+      box-shadow: 0 5px #0a3d0a;
+      transition: all 0.15s ease-in-out;
+      cursor: pointer;
+      margin: 2%;
+      display: block;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 0;
+    }
+    .toggle-btn:hover {
+      background-color: #1e7b1e;
+    }
+    .toggle-btn:active {
+      box-shadow: 0 2px #0a3d0a;
+      transform: translateY(3px);
+    }
+    .editor {
+      border: 2px solid black;
+      width: 100%;
+      height: clamp(50vh, 60vh, 70vh);
+
+      background: white;
+      padding: 10px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+      outline: none;
+      display: none;
+      tab-size: 2;
+    
+      
+    }
+    .executed {
+      border: 5px solid white;
+      width: 100%;
+      height: auto;
+      margin-top: 1rem;
+      min-height: 200px;
+      background: white;
+      display: none;
+    }
+    @media (max-width: 500px) {
+      body {
+        margin: 1vh;
+        border-width: 3px;
+      }
+      .all {
+        padding: 0.5rem;
+        gap: 1vh;
+      }
+      .toggle-btn {
+        width: 100%;
+      }
+    }
+    .btn-exe-container {
+      position: fixed;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1rem;
+      z-index: 1000;
+    }
+    .clr-btn,
+    .execute-btn,
+    .back-btn {
+      padding: 0.5rem 1.2rem;
+      font-size: 0.6rem;
+      border: none;
+      background: darkblue;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    .back-btn{
+      display:none;
+    }
+    .clr-btn:hover,
+    .execute-btn:hover,
+    .back-btn:hover {
+      background: green;
+    }
+    #floatCopy {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 10px 15px;
+      font-size: 15px;
+      border-radius: 50%;
+      background-color: blueviolet;
+      color: white;
+      border: none;
+      cursor: grab;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+/* only shows when empty */
+.editor:empty:before {
+  content: attr(data-placeholder);
+  color: rgba(0,0,0,0.3); /* faint like a watermark */
+  pointer-events: none;     /* lets you type over it */
+}
+
+body.nightmode {
+  background-color: #111;
+  color: #eee;
+}
+
+body.nightmode .editor {
+  background: #1e1e1e;
+  color: #0f0;
+  border-color: #444;
+}
+
+body.nightmode .executed {
+  background: #000;
+  border-color: #333;
+}
+
+body.nightmode .toggle-btn,
+body.nightmode .clr-btn,
+body.nightmode .execute-btn,
+body.nightmode .back-btn {
+  background: #333;
+  color: #eee;
+  box-shadow: 0 4px #111;
+}
+
+body.nightmode .toggle-btn:hover,
+body.nightmode .clr-btn:hover,
+body.nightmode .execute-btn:hover,
+body.nightmode .back-btn:hover {
+  background: #555;
+}
+#toolbarMenu{
+   background-color: darkgrey;   
+   width: 100%;
+   height: 100%; 
+   border-radius: 50%; 
+}
+#html-editor{
+  display:block;
+}
+#filePicker{
+ display:none
+}
+
+.headingDiv{
+  color: blueviolet;
+  text-align: center;
+  font-size: small;
+}
+.headingDiv:hover{
+  color: blue;
+}
