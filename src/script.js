@@ -25,7 +25,40 @@ runBtn.addEventListener("click", () => {
   const jsContent = jsEditor.innerText.trim();
 
 
+let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
 
+let toLowSup = surprise.toLowerCase() ;
+
+
+  if (htmlContent.toLowerCase().includes(toLowSup)) {
+    executedFrame.srcdoc = `
+      <style>
+        body {
+          background:black;
+          color:#0f0;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          height:100vh;
+          font-family:monospace;
+          font-size:22px;
+          text-align:center;
+        }
+        .glitch { animation: blink 0.25s infinite alternate; }
+        @keyframes blink { from { color:#0f0; } to { color:red; } }
+      </style>
+      <div class="glitch">
+        ⚠️ SYSTEM OVERRIDE ⚠️ <br>
+        Unexpected Execution Triggered... <br>
+        Stark Protocol Activated!
+      </div>
+      <script>
+        setTimeout(()=>{
+          document.body.innerHTML = "<h1 style='color:cyan;'>Surprise! 🫡<br>Back to your editor...</h1>";
+        },4000);
+      <\/script>
+    `;
+  } else {
 
     let finalCode;
     const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
@@ -41,7 +74,7 @@ runBtn.addEventListener("click", () => {
     }
 
     executedFrame.srcdoc = finalCode;
-  
+  }
 
   document.querySelector(".all").style.display = "none";
   executedFrame.style.display = "block";
@@ -127,6 +160,32 @@ else if (action === 'hideTB') {
   cssToggle.style.display = isVisibleCSS ? "none" : "block";
 }
 
+
+
+  else if (action === 'credits') {
+  alert("This is an HTML editor created by Stark Industries.\n\nFeel free to use and modify it as you wish!");
+  htmlEditor.innerHTML = `
+    <center><b>CREDITS</b></center>
+    <center>Created by Stark Industries</center>
+    <center>Feel free to use and modify it as you wish!</center>
+    <br>
+    AUTHOR: AK Pandey <br>
+    LICENSE: MIT License <br>
+    LEGAL_NOTE: <b>ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;</b>
+  `;
+}
+
+else if (action === 'darkMode') {
+  document.body.classList.toggle("nightmode");
+
+  const option = e.target.querySelector("option[value='darkMode']");
+  if (document.body.classList.contains("nightmode")) {
+    option.textContent = "Light Mode ☀️";
+  } else {
+    option.textContent = "Night Mode 🌙";
+  }
+}
+
 else if (action === 'fontPlus') {
 
   
@@ -174,12 +233,14 @@ else if (action === 'wrdWrp') {
   } else {
     editors.forEach(ed => {
       ed.style.whiteSpace = "pre";        
-      ed.style.wordBreak = "normal";     
+      ed.style.wordBreak = "normal";      
       ed.style.overflowX = "auto";        
     });
     wrapNo = 1;
   }
 }
+
+
 
 
   toolbarMenu.value = '';
@@ -208,16 +269,6 @@ document.querySelectorAll(".editor").forEach(editor => {
 });
 
 });
-
-
-
-
-
-
-
-
-
-
 
 
 

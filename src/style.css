@@ -159,6 +159,37 @@
   pointer-events: none;     
 }
 
+body.nightmode {
+  background-color: #111;
+  color: #eee;
+}
+
+body.nightmode .editor {
+  background: #1e1e1e;
+  color: #0f0;
+  border-color: #444;
+}
+
+body.nightmode .executed {
+  background: #000;
+  border-color: #333;
+}
+
+body.nightmode .toggle-btn,
+body.nightmode .clr-btn,
+body.nightmode .execute-btn,
+body.nightmode .back-btn {
+  background: #333;
+  color: #eee;
+  box-shadow: 0 4px #111;
+}
+
+body.nightmode .toggle-btn:hover,
+body.nightmode .clr-btn:hover,
+body.nightmode .execute-btn:hover,
+body.nightmode .back-btn:hover {
+  background: #555;
+}
 
 
 
