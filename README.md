@@ -1,132 +1,132 @@
 # Live HTML Editor
 
-A lightweight live HTML editor built using pure HTML, CSS, and JavaScript.
+An interactive, browser-based HTML editor that allows users to write, edit, and preview HTML, CSS, and JavaScript in real time.
 
-This project allows users to write HTML, CSS, and JavaScript directly inside the browser and instantly preview the output without requiring any installation, build tools, or external libraries.
+Live HTML Editor provides a lightweight development environment inside the browser, enabling instant experimentation with frontend code using a modular structure and a single-file standalone version.
 
-The editor focuses on simplicity, fast execution, portability, and a clean workflow while still providing useful utility features for quick frontend experimentation.
+---
+
+⚠️ Disclaimer
+This project is intended for educational and experimental purposes only. It is not a full-scale IDE. Some features may be limited, and behavior may vary across browsers.
+
+---
+
+## Usage
+
+### Option 1 — Quick Use (Recommended)
+
+1. Download `dist/live-html-editor.html`
+2. Open in any browser
+3. Start coding immediately
+
+* Works offline. 
+* No installation required.
+
+---
+
+### Option 2 — Development Mode
+
+1. Clone the repository
+2. Open:
+
+```
+  src/index.html
+```
+
+3. Edit files in `src/`
+
+
+Recommended for learning and development.
 
 ---
 
 ## Features
 
-- Separate editors for:
-  - HTML
-  - CSS
-  - JavaScript
-
-- Live preview execution
-- Toggle buttons for CSS and JavaScript editors
-- Floating utility menu
-- Import external HTML files
-- Export code as HTML
-- Show and hide editor controls
-- Lightweight and responsive interface
-- Built entirely using vanilla HTML, CSS, and JavaScript
-- No frameworks or external dependencies
-- Beginner-friendly project structure
-- Available in both modular and standalone builds
-
----
-
-## About The Project
-
-Live HTML Editor is a browser-based mini coding environment designed for quickly testing frontend code in real time.
-
-The project started as a small experimental editor and gradually evolved into a more structured tool with multiple editor panels, utility controls, modular builds, and improved UI organization.
-
-The goal is not to compete with full IDEs. Instead, the focus is:
-
-- fast testing
-- simplicity
-- portability
-- easy modification
-- learning-friendly structure
-
-This makes the project useful for:
-- beginners learning frontend development
-- quick HTML testing
-- small experiments
-- portable offline editing
-- lightweight browser-based coding
+* Live editing of HTML, CSS, and JavaScript
+* Instant preview using iframe sandbox
+* Toggle JS and CSS editors
+* Export as single HTML file
+* Import external files
+* Adjustable font size and word wrap
+* Dark/light mode
+* Reset/clear editors
+* Floating toolbar
+* Lightweight and dependency-free
 
 ---
 
 ## Project Structure
 
-### Modular Version
-
-The modular version separates the project into multiple files:
-
-- `index.html`
-- `style.css`
-- `script.js`
-
-Advantages:
-- Easier maintenance
-- Cleaner architecture
-- Better scalability
-- Simpler debugging
-
----
-
-### Standalone Version
-
-The standalone version contains everything inside a single HTML file.
-
-Advantages:
-- Easy sharing
-- Portable
-- Simple deployment
-- Useful for quick testing
+```
+live-html-editor/
+│
+├── index.html              # Entry / landing page (GitHub Pages)
+│
+├── src/                    # Development source code
+│   ├── index.html
+│   ├── script.js
+│   └── style.css
+│
+├── dist/                   # Standalone (for users)
+│   └── live-html-editor.html  # Single-file app
+│
+├── README.md
+├── LICENSE
+└── .gitignore
+```
 
 ---
 
-## Current Features Overview
+## Project Overview
 
-The editor currently supports:
+This project uses two modes:
 
-- Real-time HTML rendering
-- Embedded CSS support
-- Embedded JavaScript execution
-- Utility-based editor workflow
-- File importing
-- HTML exporting
-- Editor visibility controls
-- Responsive flexbox-based layout
-- Div-based editing system
+### Development Mode
 
----
+* Modular structure
+* Easy to edit and experiment with
+* Easy to extend
 
-## Design Philosophy
+### Standalone Mode
 
-This project intentionally avoids heavy frameworks and complex tooling.
-
-The idea is to keep the editor:
-- lightweight
-- understandable
-- hackable
-- beginner friendly
-- easy to customize
-
-Most of the functionality is implemented using direct DOM manipulation and native browser APIs.
+* Single HTML file
+* Fully portable
+* Works offline
 
 ---
 
-## Current Status
+## Technology Stack
 
-The project is still evolving and continues receiving structural improvements, UI upgrades, and new utility features over time.
+* HTML5
+* CSS3
+* Vanilla JavaScript
 
 ---
 
-## Technologies Used
+## Limitations
 
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
+* Not a full IDE
+* No debugging tools
+* No collaboration features
+* Browser-dependent behavior
+
+---
+
+## Live Demo
+
+Try it here:
+https://akp-labs.github.io/live-html-editor
+
+---
+
+## Contributing
+
+* Open for learning and experimentation
+* Bugs may exist
+* Improvements are welcome
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
+Open-source for educational and experimental use.
