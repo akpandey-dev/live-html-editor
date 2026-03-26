@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="A lightweight live HTML editor that lets you write, edit, and instantly preview HTML, CSS, and JavaScript directly in your browser.">
   <title>Live HTML Editor</title>
-  <style>
-    body {
+<style>
+   body {
       background-color: darkgrey;
       margin: 3vh;
       border: 5px solid black;
@@ -26,8 +26,9 @@
     }
 
 
-.marquee {
+.heading {
   border: 2px solid black;
+  color: green;
   padding: 3px;
   width: 100%;      
   box-sizing: border-box;
@@ -46,24 +47,21 @@
   border: 1px solid black;
   border-radius: 50%;
 }
-    marquee {
-      margin: 0;
-      color: blueviolet;
-      font-family: monospace;
-    }
+
     .btn-container {
       display: flex;
       flex-direction: row;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.5rem;
       width: 100%;
     }
     .toggle-btn {
       color: white;
-      background-color: darkgreen;
+      background-color: rgb(44, 148, 44);
       width: clamp(120px, 40%, 250px);
       height: clamp(30px, 6vh, 60px); 
+      min-width: 100px;
       border: none;
       font-size: clamp(12px, 4vw, 22px);
       white-space: nowrap;
@@ -73,6 +71,8 @@
       cursor: pointer;
       margin: 2%;
       display: block;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 0;
     }
     .toggle-btn:hover {
       background-color: #1e7b1e;
@@ -84,8 +84,8 @@
     .editor {
       border: 2px solid black;
       width: 100%;
-      min-height: 50vh;
-      max-height: 65vh;
+      height: clamp(50vh, 60vh, 70vh);
+
       background: white;
       padding: 10px;
       box-sizing: border-box;
@@ -122,7 +122,7 @@
     }
     .btn-exe-container {
       position: fixed;
-      bottom: 10px;
+      bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -133,13 +133,16 @@
     .execute-btn,
     .back-btn {
       padding: 0.5rem 1.2rem;
-      font-size: 1rem;
+      font-size: 0.6rem;
       border: none;
       background: darkblue;
       color: white;
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.2s ease-in-out;
+    }
+    .back-btn{
+      display:none;
     }
     .clr-btn:hover,
     .execute-btn:hover,
@@ -198,20 +201,38 @@ body.nightmode .execute-btn:hover,
 body.nightmode .back-btn:hover {
   background: #555;
 }
-
-
-
-
-  </style>
-</head>
-<body>
-  <div class="all">
-    <div class="marquee"><marquee direction="right">LIVE HTML EDITOR (DIV based)</marquee><div id="floatingMenu" >
-  <select title="Small settings menu..." name="selector" id="toolbarMenu" style="
+#toolbarMenu{
    background-color: darkgrey;   
    width: 100%;
    height: 100%; 
-   border-radius: 50%; ">
+   border-radius: 50%; 
+}
+#html-editor{
+  display:block;
+}
+#filePicker{
+ display:none
+}
+
+.headingDiv{
+  color: blueviolet;
+  text-align: center;
+  font-size: small;
+}
+.headingDiv:hover{
+  color: blue;
+}
+</style>
+</head>
+<body>
+  <div class="all">
+
+
+<div class="heading"><div class="headingDiv">LIVE HTML EDITOR</div>
+    
+    
+<div id="floatingMenu" >
+<select title="Small settings menu..." name="selector" id="toolbarMenu">
     <option value="">⁝</option>
     <option value="external">External File</option>
     <option value="generate">Generate Basic HTML</option>
@@ -222,16 +243,17 @@ body.nightmode .back-btn:hover {
     <option value="darkMode">Night Mode 🌙</option>
     <option value="credits"> Credits</option>
     
-  </select>
+</select>
 </div>
+
 </div>
 
     <div class="btn-container">
-      <button class="toggle-btn js-toggle">Toggle JS</button>
-      <button class="toggle-btn css-toggle">Toggle CSS</button>
+      <button type="button" class="toggle-btn js-toggle">Toggle JS</button>
+      <button type="button" class="toggle-btn css-toggle">Toggle CSS</button>
     </div>
 
-    <div id="html-editor" class="editor" contenteditable="true" data-placeholder="HTML CODE HERE..........." style="display:block;" spellcheck="false"></div>
+    <div id="html-editor" class="editor" contenteditable="true" data-placeholder="HTML CODE HERE..........." spellcheck="false"></div>
     <div id="js-editor" class="editor" contenteditable="true"   data-placeholder="JS CODE HERE............." spellcheck="false"></div>
     <div id="css-editor" class="editor" contenteditable="true"  data-placeholder="CSS CODE HERE............" spellcheck="false"></div>
   </div>
@@ -239,19 +261,20 @@ body.nightmode .back-btn:hover {
   <div class="btn-exe-container">
     <button type="button" class="clr-btn">Clear</button>
     <button type="button" class="execute-btn">Run</button>
-    <button type="button" class="back-btn" style="display:none;">BACK</button>
+    <button type="button" class="back-btn">BACK</button>
   </div>
 
 
-  <iframe class="executed" id="executed" style="display:none;"></iframe>
+  <iframe title="Code result" class="executed" id="executed"></iframe>
 
 
 
-<input type="file" id="filePicker" accept=".html,.htm,.txt,.js,.css" style="display:none">
+<input placeholder="Pick a file to open..." type="file" id="filePicker" accept=".html,.htm,.txt,.js,.css">
 
 
 
   <script>
+// Important variable declarations
     const jsToggle = document.querySelector(".js-toggle");
     const cssToggle = document.querySelector(".css-toggle");
     const runBtn = document.querySelector(".execute-btn");
@@ -263,6 +286,7 @@ body.nightmode .back-btn:hover {
     const jsEditor = document.getElementById("js-editor");
     const cssEditor = document.getElementById("css-editor");
   
+// JS Toggle and CSS Toggle button handlers
 
     jsToggle.addEventListener("click", () => {
       jsEditor.style.display = jsEditor.style.display === "block" ? "none" : "block";
@@ -272,19 +296,9 @@ body.nightmode .back-btn:hover {
       cssEditor.style.display = cssEditor.style.display === "block" ? "none" : "block";
     });
 
-runBtn.addEventListener("click", () => {
-  const htmlContent = htmlEditor.innerText.trim();
-  const cssContent = cssEditor.innerText.trim();
-  const jsContent = jsEditor.innerText.trim();
-
-
-let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
-
-let toLowSup = surprise.toLowerCase() ;
-
-
-  if (htmlContent.toLowerCase().includes(toLowSup)) {
-    executedFrame.srcdoc = `
+// The secret and hidden Easter egg
+function executeEasterEgg() {
+      executedFrame.srcdoc = `
       <style>
         body {
           background:black;
@@ -311,30 +325,67 @@ let toLowSup = surprise.toLowerCase() ;
         },4000);
       <\/script>
     `;
-  } else {
 
-    let finalCode;
-    const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
-
-    if (isFullHTML) {
-      finalCode = htmlContent;
-    } else {
-      finalCode = `
+};
+// If not code is written at all
+function executeNoCode(){
+    executedFrame.srcdoc = "<h2 style='color:red; text-align:center; margin-top:20px;'>⚠️ Nothing to execute! Please write some code first. ⚠️</h2>";
+    return;
+}
+// If HTML, JS and CSS are written in same editor textboxes
+function executeFullCode(htmlContent){
+    let finalCode = htmlContent;
+    executedFrame.srcdoc = finalCode;
+}
+// If HTML, JS and CSS are written in separate editor textboxes
+function executeModularCode(htmlContent, cssContent, jsContent){
+      let finalCode = `
         ${htmlContent}
         <style>${cssContent}</style>
         <script>${jsContent}<\/script>
       `;
-    }
+      executedFrame.srcdoc = finalCode;
+}
 
-    executedFrame.srcdoc = finalCode;
+
+
+// single function to handles execution 
+function executeCode() {
+
+  const htmlContent = htmlEditor.innerText.trim();
+  const cssContent = cssEditor.innerText.trim();
+  const jsContent = jsEditor.innerText.trim();
+
+  let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
+  let toLowSup = surprise.toLowerCase() ;
+
+  // credit mode call
+  if (htmlContent.toLowerCase().includes(toLowSup)) {
+    executeEasterEgg();
+    return;
   }
+  else if (htmlContent === "" && cssContent === "" && jsContent === "") {
+    executeNoCode();
+    return;
+  }
+  else if (htmlContent !== "" && cssContent == "" && jsContent == "") {
+    executeFullCode(htmlContent);
+    return;
+  }
+  else if (htmlContent !== "" && (cssContent !== "" || jsContent !== "")) {
+    executeModularCode(htmlContent, cssContent, jsContent);
+    return;
+  }
+};
 
-  document.querySelector(".all").style.display = "none";
-  executedFrame.style.display = "block";
-  clrBtn.style.display = "none";
-  runBtn.style.display = "none";
-  backBtn.style.display = "inline-block";
-});
+    runBtn.addEventListener("click", () => {
+      executeCode();
+      document.querySelector(".all").style.display = "none";
+      executedFrame.style.display = "block";
+      clrBtn.style.display = "none";
+      runBtn.style.display = "none";
+      backBtn.style.display = "inline-block";
+    });
 
     backBtn.addEventListener("click", () => {
       document.querySelector(".all").style.display = "flex";
@@ -375,74 +426,77 @@ let toLowSup = surprise.toLowerCase() ;
 
 
 
-
 const filePicker = document.getElementById("filePicker");
 const toolbarMenu = document.getElementById('toolbarMenu');
 
 let valueFont = 0 ;
 let wrapNo = 0 ;
 
-toolbarMenu.addEventListener('change', (e) => {
-  const action = e.target.value;
 
-  if (action === 'external') {
-    filePicker.click(); 
-  } else if (action === 'generate') {
+
+function clickFilePicker(){
+    filePicker.click();
+}
+
+
+function generateBasicHTML(){
     htmlEditor.innerText = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Document</title>
+<style>
+/* CSS here */
+</style>
 </head>
 <body>
 
+<!--body here -->
+
+<script>
+// JavaScript here
+<\/script>
 </body>
 </html>`;
     cssEditor.innerText = '';
     jsEditor.innerText = '';
-  } else if (action === 'download') {
-    downloadAsHTML(); 
-  }
+}
 
-else if (action === 'hideTB') {
+
+function hideToggleButtons(){
   const isVisibleJS = getComputedStyle(jsToggle).display !== "none";
-   const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
+  const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
 
   jsToggle.style.display = isVisibleJS ? "none" : "block";
   cssToggle.style.display = isVisibleCSS ? "none" : "block";
 }
 
 
-
-  else if (action === 'credits') {
-  alert("This is an HTML editor created by Stark Industries.\n\nFeel free to use and modify it as you wish!");
+function showCredits(){
+  alert("This is an HTML editor created by AKP Labs.\n\nFeel free to use and modify it as you wish!");
   htmlEditor.innerHTML = `
     <center><b>CREDITS</b></center>
-    <center>Created by Stark Industries</center>
+    <center>Created by AKP Labs</center>
     <center>Feel free to use and modify it as you wish!</center>
     <br>
-    AUTHOR: AK Pandey <br>
+    AUTHOR: Ak <br>
     LICENSE: MIT License <br>
     LEGAL_NOTE: <b>ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;</b>
   `;
 }
 
-else if (action === 'darkMode') {
-  document.body.classList.toggle("nightmode");
 
-  const option = e.target.querySelector("option[value='darkMode']");
-  if (document.body.classList.contains("nightmode")) {
-    option.textContent = "Light Mode ☀️";
-  } else {
-    option.textContent = "Night Mode 🌙";
-  }
+function toggleThemeMode(selectEl){
+  document.body.classList.toggle("nightmode");
+  const option = selectEl.querySelector("option[value='darkMode']");
+  option.textContent = document.body.classList.contains("nightmode")
+    ? "Light Mode ☀️"
+    : "Night Mode 🌙";
 }
 
-else if (action === 'fontPlus') {
 
-  
-
+function handleFontSize(){
      if (valueFont === 0 ){
        htmlEditor.style.fontSize = "15px" ;
        valueFont++ ;
@@ -470,10 +524,10 @@ else if (action === 'fontPlus') {
      else {
       htmlEditor.style.fontSize = '' ;
      }
-  
 }
 
-else if (action === 'wrdWrp') {
+
+function handleWordWrap(){
   const editors = document.querySelectorAll(".editor");
 
   if (wrapNo === 1) {
@@ -494,12 +548,39 @@ else if (action === 'wrdWrp') {
 }
 
 
+function handleUnknownAction(action){
+  console.log('Unknown action:', action);
+}
 
+
+
+toolbarMenu.addEventListener('change', (e) => {
+  const action = e.target.value;
+
+  if (action === 'external') {
+    clickFilePicker(); 
+  } else if (action === 'generate') {
+    generateBasicHTML(); 
+  } else if (action === 'download') {
+    downloadAsHTML(); 
+  } else if (action === 'hideTB') {
+    hideToggleButtons(); 
+  } else if (action === 'credits') {
+    showCredits(); 
+  } else if (action === 'darkMode') {
+    toggleThemeMode(toolbarMenu); 
+  } else if (action === 'fontPlus') {
+    handleFontSize(); 
+  } else if (action === 'wrdWrp') {
+    handleWordWrap(); 
+  } else {
+    handleUnknownAction(action); // handle unknown actions existing function
+  }
 
   toolbarMenu.value = '';
 });
 
-    filePicker.addEventListener("change", (e) => {
+filePicker.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -510,7 +591,6 @@ else if (action === 'wrdWrp') {
 });
 
 
-// force plain text paste in all editor divs
 document.querySelectorAll(".editor").forEach(editor => {
   editor.addEventListener("paste", function(e) {
   e.preventDefault();
@@ -522,16 +602,6 @@ document.querySelectorAll(".editor").forEach(editor => {
 });
 
 });
-
-
-
-
-
-
-
-
-
-
 
 
 

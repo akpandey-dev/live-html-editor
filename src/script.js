@@ -1,4 +1,5 @@
 
+// Important variable declarations
     const jsToggle = document.querySelector(".js-toggle");
     const cssToggle = document.querySelector(".css-toggle");
     const runBtn = document.querySelector(".execute-btn");
@@ -10,6 +11,7 @@
     const jsEditor = document.getElementById("js-editor");
     const cssEditor = document.getElementById("css-editor");
   
+// JS Toggle and CSS Toggle button handlers
 
     jsToggle.addEventListener("click", () => {
       jsEditor.style.display = jsEditor.style.display === "block" ? "none" : "block";
@@ -19,19 +21,9 @@
       cssEditor.style.display = cssEditor.style.display === "block" ? "none" : "block";
     });
 
-runBtn.addEventListener("click", () => {
-  const htmlContent = htmlEditor.innerText.trim();
-  const cssContent = cssEditor.innerText.trim();
-  const jsContent = jsEditor.innerText.trim();
-
-
-let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
-
-let toLowSup = surprise.toLowerCase() ;
-
-
-  if (htmlContent.toLowerCase().includes(toLowSup)) {
-    executedFrame.srcdoc = `
+// The secret and hidden Easter egg
+function executeEasterEgg() {
+      executedFrame.srcdoc = `
       <style>
         body {
           background:black;
@@ -58,30 +50,67 @@ let toLowSup = surprise.toLowerCase() ;
         },4000);
       <\/script>
     `;
-  } else {
 
-    let finalCode;
-    const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
-
-    if (isFullHTML) {
-      finalCode = htmlContent;
-    } else {
-      finalCode = `
+};
+// If not code is written at all
+function executeNoCode(){
+    executedFrame.srcdoc = "<h2 style='color:red; text-align:center; margin-top:20px;'>⚠️ Nothing to execute! Please write some code first. ⚠️</h2>";
+    return;
+}
+// If HTML, JS and CSS are written in same editor textboxes
+function executeFullCode(htmlContent){
+    let finalCode = htmlContent;
+    executedFrame.srcdoc = finalCode;
+}
+// If HTML, JS and CSS are written in separate editor textboxes
+function executeModularCode(htmlContent, cssContent, jsContent){
+      let finalCode = `
         ${htmlContent}
         <style>${cssContent}</style>
         <script>${jsContent}<\/script>
       `;
-    }
+      executedFrame.srcdoc = finalCode;
+}
 
-    executedFrame.srcdoc = finalCode;
+
+
+// single function to handles execution 
+function executeCode() {
+
+  const htmlContent = htmlEditor.innerText.trim();
+  const cssContent = cssEditor.innerText.trim();
+  const jsContent = jsEditor.innerText.trim();
+
+  let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
+  let toLowSup = surprise.toLowerCase() ;
+
+  // credit mode call
+  if (htmlContent.toLowerCase().includes(toLowSup)) {
+    executeEasterEgg();
+    return;
   }
+  else if (htmlContent === "" && cssContent === "" && jsContent === "") {
+    executeNoCode();
+    return;
+  }
+  else if (htmlContent !== "" && cssContent == "" && jsContent == "") {
+    executeFullCode(htmlContent);
+    return;
+  }
+  else if (htmlContent !== "" && (cssContent !== "" || jsContent !== "")) {
+    executeModularCode(htmlContent, cssContent, jsContent);
+    return;
+  }
+};
 
-  document.querySelector(".all").style.display = "none";
-  executedFrame.style.display = "block";
-  clrBtn.style.display = "none";
-  runBtn.style.display = "none";
-  backBtn.style.display = "inline-block";
-});
+    runBtn.addEventListener("click", () => {
+      executeCode();
+      document.querySelector(".all").style.display = "none";
+      executedFrame.style.display = "block";
+      clrBtn.style.display = "none";
+      runBtn.style.display = "none";
+      backBtn.style.display = "inline-block";
+    });
 
     backBtn.addEventListener("click", () => {
       document.querySelector(".all").style.display = "flex";
@@ -122,74 +151,77 @@ let toLowSup = surprise.toLowerCase() ;
 
 
 
-
 const filePicker = document.getElementById("filePicker");
 const toolbarMenu = document.getElementById('toolbarMenu');
 
 let valueFont = 0 ;
 let wrapNo = 0 ;
 
-toolbarMenu.addEventListener('change', (e) => {
-  const action = e.target.value;
 
-  if (action === 'external') {
-    filePicker.click(); 
-  } else if (action === 'generate') {
+
+function clickFilePicker(){
+    filePicker.click();
+}
+
+
+function generateBasicHTML(){
     htmlEditor.innerText = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Document</title>
+<style>
+/* CSS here */
+</style>
 </head>
 <body>
 
+<!--body here -->
+
+<script>
+// JavaScript here
+<\/script>
 </body>
 </html>`;
     cssEditor.innerText = '';
     jsEditor.innerText = '';
-  } else if (action === 'download') {
-    downloadAsHTML(); 
-  }
+}
 
-else if (action === 'hideTB') {
+
+function hideToggleButtons(){
   const isVisibleJS = getComputedStyle(jsToggle).display !== "none";
-   const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
+  const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
 
   jsToggle.style.display = isVisibleJS ? "none" : "block";
   cssToggle.style.display = isVisibleCSS ? "none" : "block";
 }
 
 
-
-  else if (action === 'credits') {
-  alert("This is an HTML editor created by Stark Industries.\n\nFeel free to use and modify it as you wish!");
+function showCredits(){
+  alert("This is an HTML editor created by AKP Labs.\n\nFeel free to use and modify it as you wish!");
   htmlEditor.innerHTML = `
     <center><b>CREDITS</b></center>
-    <center>Created by Stark Industries</center>
+    <center>Created by AKP Labs</center>
     <center>Feel free to use and modify it as you wish!</center>
     <br>
-    AUTHOR: AK Pandey <br>
+    AUTHOR: Ak <br>
     LICENSE: MIT License <br>
     LEGAL_NOTE: <b>ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;</b>
   `;
 }
 
-else if (action === 'darkMode') {
-  document.body.classList.toggle("nightmode");
 
-  const option = e.target.querySelector("option[value='darkMode']");
-  if (document.body.classList.contains("nightmode")) {
-    option.textContent = "Light Mode ☀️";
-  } else {
-    option.textContent = "Night Mode 🌙";
-  }
+function toggleThemeMode(selectEl){
+  document.body.classList.toggle("nightmode");
+  const option = selectEl.querySelector("option[value='darkMode']");
+  option.textContent = document.body.classList.contains("nightmode")
+    ? "Light Mode ☀️"
+    : "Night Mode 🌙";
 }
 
-else if (action === 'fontPlus') {
 
-  
-
+function handleFontSize(){
      if (valueFont === 0 ){
        htmlEditor.style.fontSize = "15px" ;
        valueFont++ ;
@@ -217,10 +249,10 @@ else if (action === 'fontPlus') {
      else {
       htmlEditor.style.fontSize = '' ;
      }
-  
 }
 
-else if (action === 'wrdWrp') {
+
+function handleWordWrap(){
   const editors = document.querySelectorAll(".editor");
 
   if (wrapNo === 1) {
@@ -241,12 +273,39 @@ else if (action === 'wrdWrp') {
 }
 
 
+function handleUnknownAction(action){
+  console.log('Unknown action:', action);
+}
 
+
+
+toolbarMenu.addEventListener('change', (e) => {
+  const action = e.target.value;
+
+  if (action === 'external') {
+    clickFilePicker(); 
+  } else if (action === 'generate') {
+    generateBasicHTML(); 
+  } else if (action === 'download') {
+    downloadAsHTML(); 
+  } else if (action === 'hideTB') {
+    hideToggleButtons(); 
+  } else if (action === 'credits') {
+    showCredits(); 
+  } else if (action === 'darkMode') {
+    toggleThemeMode(toolbarMenu); 
+  } else if (action === 'fontPlus') {
+    handleFontSize(); 
+  } else if (action === 'wrdWrp') {
+    handleWordWrap(); 
+  } else {
+    handleUnknownAction(action); // handle unknown actions existing function
+  }
 
   toolbarMenu.value = '';
 });
 
-    filePicker.addEventListener("change", (e) => {
+filePicker.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -257,7 +316,6 @@ else if (action === 'wrdWrp') {
 });
 
 
-// force plain text paste in all editor divs
 document.querySelectorAll(".editor").forEach(editor => {
   editor.addEventListener("paste", function(e) {
   e.preventDefault();
