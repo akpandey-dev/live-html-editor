@@ -115,7 +115,7 @@ This project uses two modes:
 ## Live Demo
 
 Try it here:
-https://akp-labs.github.io/live-html-editor
+https://akpandey-dev.github.io/live-html-editor
 
 ---
 
