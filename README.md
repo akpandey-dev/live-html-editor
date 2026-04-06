@@ -1,58 +1,157 @@
 # Live HTML Editor
 
-A lightweight, browser-based, interactive HTML editor built using pure HTML, CSS, and JavaScript, that lets you write, edit, and instantly preview HTML content. Supports live preview, dark/light mode, font size customization, and HTML download. Perfect for experimenting with web layouts or building pages on the fly.
-Especially Designed for learners, hobbyists, and coders who want to experiment directly in the browser.
+An interactive, browser-based HTML editor that allows users to write, edit, and preview HTML, CSS, and JavaScript in real time.
 
-⚠️ Note: This is a client-side editor intended for personal, educational, and experimental use. It is **not** a full-scale IDE.
-
----
-
-## Features
-
-- Live HTML, CSS, and JavaScript editing
-- Toggle visibility for JS and CSS editors
-- Run code in an embedded iframe
-- Clear editors or reset workspace
-- Export code as a standalone HTML file
-- Fully offline, portable, and dependency-free
-- Option button with features like theme, word wrap, etc.
+Live HTML Editor provides a lightweight development environment inside the browser, enabling instant experimentation with frontend code using a modular structure and a single-file distributable build.
 
 ---
 
-## Repository Structure
-
-All project versions are organized under the `versions/` directory.  
-Each version folder contains its own documentation explaining available formats, features, and usage instructions.
+⚠️ Disclaimer
+This project is intended for educational and experimental purposes only. It is not a full-scale IDE. Some features may be limited, and behavior may vary across browsers.
 
 ---
 
 ## Usage
 
-No installation required.
+### Option 1 — Quick Use (Recommended)
 
-1. Clone the repository(or download the specific file(s))
-2. Navigate to a version inside the `versions` directory and choose your preferred build
-3. Open file and start typing HTML, CSS, and JS in the respective editors
-4. Click **Run** to see output
-5. Use **Back** to return to editors
-6. Optional: Use the floating toolbar for extra options like file import, download, night mode, and font adjustments
+1. Download `dist/live-html-editor.html`
+2. Open in any browser
+3. Start coding immediately
+
+* Works offline. 
+* No installation required.
+
+---
+
+### Option 2 — Development Mode
+
+1. Clone the repository
+2. Open:
+
+```
+  src/index.html
+```
+
+3. Edit files in `src/`
+
+4. Build when needed:
+
+```
+  python scripts/build.py
+```
+
+Recommended for learning and development.
+
+---
+
+## Features
+
+* Live editing of HTML, CSS, and JavaScript
+* Instant preview using iframe sandbox
+* Toggle JS and CSS editors
+* Export as single HTML file
+* Import external files
+* Adjustable font size and word wrap
+* Dark/light mode
+* Reset/clear editors
+* Floating toolbar
+* Lightweight and dependency-free
+
+---
+
+## Project Structure
+
+```
+live-html-editor/
+│
+├── index.html              # Entry / landing page (GitHub Pages)
+│
+├── src/                    # Development source code
+│   ├── index.html
+│   ├── script.js
+│   └── style.css
+│
+├── dist/                   # Final build (for users)
+│   └── live-html-editor.html  # Single-file app
+│
+├── scripts/                # Build tools
+│   └── build.py
+│
+├── README.md
+├── LICENSE
+└── .gitignore
+```
+
+---
+
+### Build System
+
+Run:
+
+```
+python scripts/build.py
+```
+
+This will:
+
+* Combine HTML, CSS, and JavaScript
+* Bundle into a single file
+* Output to `dist/`
+
+---
+
+## Architecture Overview
+
+This project uses two modes:
+
+### Development Mode
+
+* Modular structure
+* Local server support
+* Easy to extend
+
+### Production Mode
+
+* Single HTML file
+* Fully portable
+* Works offline
 
 ---
 
 ## Technology Stack
 
-- HTML5
-- CSS3
-- Vanilla JavaScript (DOM API & iframe sandbox)
+* HTML5
+* CSS3
+* Vanilla JavaScript
+* Python (tooling and build script only)
+
+---
+
+## Limitations
+
+* Not a full IDE
+* No debugging tools
+* No collaboration features
+* Browser-dependent behavior
+
+---
+
+## Live Demo
+
+Try it here:
+https://akpandey-dev.github.io/live-html-editor
+
+---
+
+## Contributing
+
+* Open for learning and experimentation
+* Bugs may exist
+* Improvements are welcome
 
 ---
 
 ## License
 
-Open for learning, modification, experimentation, and redistribution.
-
----
-
----
-> 🌐 **Try Live**  
-> Try it here: https://akpandey-dev.github.io/live-html-editor
+Open-source for educational and experimental use.

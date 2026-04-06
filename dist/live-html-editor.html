@@ -6,7 +6,7 @@
   <meta name="description" content="A lightweight live HTML editor that lets you write, edit, and instantly preview HTML, CSS, and JavaScript directly in your browser.">
   <title>Live HTML Editor</title>
   <style>
-    body {
+   body {
       background-color: darkgrey;
       margin: 3vh;
       border: 5px solid black;
@@ -28,6 +28,7 @@
 
 .heading {
   border: 2px solid black;
+  color: green;
   padding: 3px;
   width: 100%;      
   box-sizing: border-box;
@@ -37,7 +38,7 @@
 #floatingMenu {
   position: absolute;
   top: 50%;
-  right: 0.5vh; /* thoda border se andar */
+  right: 0.5vh; /* a bit inside the border*/
   transform: translateY(-50%); /* center vertically */
   z-index: 9999;
   width: 4vh;
@@ -52,14 +53,15 @@
       flex-direction: row;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.5rem;
       width: 100%;
     }
     .toggle-btn {
       color: white;
-      background-color: darkgreen;
+      background-color: rgb(44, 148, 44);
       width: clamp(120px, 40%, 250px);
       height: clamp(30px, 6vh, 60px); 
+      min-width: 100px;
       border: none;
       font-size: clamp(12px, 4vw, 22px);
       white-space: nowrap;
@@ -69,6 +71,8 @@
       cursor: pointer;
       margin: 2%;
       display: block;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 0;
     }
     .toggle-btn:hover {
       background-color: #1e7b1e;
@@ -80,8 +84,8 @@
     .editor {
       border: 2px solid black;
       width: 100%;
-      min-height: 50vh;
-      max-height: 65vh;
+      height: clamp(50vh, 60vh, 70vh);
+
       background: white;
       padding: 10px;
       box-sizing: border-box;
@@ -118,7 +122,7 @@
     }
     .btn-exe-container {
       position: fixed;
-      bottom: 10px;
+      bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -129,7 +133,7 @@
     .execute-btn,
     .back-btn {
       padding: 0.5rem 1.2rem;
-      font-size: 1rem;
+      font-size: 0.6rem;
       border: none;
       background: darkblue;
       color: white;
@@ -214,11 +218,12 @@ body.nightmode .back-btn:hover {
 .headingDiv{
   color: blueviolet;
   text-align: center;
+  font-size: small;
 }
 .headingDiv:hover{
   color: blue;
 }
-  </style>
+</style>
 </head>
 <body>
   <div class="all">
@@ -270,6 +275,7 @@ body.nightmode .back-btn:hover {
 
 
   <script>
+// Important Variable declarations
     const jsToggle = document.querySelector(".js-toggle");
     const cssToggle = document.querySelector(".css-toggle");
     const runBtn = document.querySelector(".execute-btn");
@@ -281,6 +287,7 @@ body.nightmode .back-btn:hover {
     const jsEditor = document.getElementById("js-editor");
     const cssEditor = document.getElementById("css-editor");
   
+// JS Toggle and CSS Toggle button handlers
 
     jsToggle.addEventListener("click", () => {
       jsEditor.style.display = jsEditor.style.display === "block" ? "none" : "block";
@@ -290,20 +297,9 @@ body.nightmode .back-btn:hover {
       cssEditor.style.display = cssEditor.style.display === "block" ? "none" : "block";
     });
 
-runBtn.addEventListener("click", () => {
-  const htmlContent = htmlEditor.innerText.trim();
-  const cssContent = cssEditor.innerText.trim();
-  const jsContent = jsEditor.innerText.trim();
-
-
-let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
-
-let toLowSup = surprise.toLowerCase() ;
-
-
-  // easter egg: credits mode
-  if (htmlContent.toLowerCase().includes(toLowSup)) {
-    executedFrame.srcdoc = `
+// The Secret and hidden Easter Egg
+function executeEasterEgg() {
+      executedFrame.srcdoc = `
       <style>
         body {
           background:black;
@@ -330,31 +326,68 @@ let toLowSup = surprise.toLowerCase() ;
         },4000);
       <\/script>
     `;
-  } else {
-    // --- your existing code stays same ---
-    let finalCode;
-    const isFullHTML = htmlContent.toLowerCase().includes("<!doctype") || htmlContent.toLowerCase().includes("<html");
 
-    if (isFullHTML) {
-      finalCode = htmlContent;
-    } else {
-      finalCode = `
+};
+// If not code is written at all
+function executeNoCode(){
+    executedFrame.srcdoc = "<h2 style='color:red; text-align:center; margin-top:20px;'>⚠️ Nothing to execute! Please write some code first. ⚠️</h2>";
+    return;
+}
+// If HTML, JS and CSS are written in same editor textboxes
+function executeFullCode(htmlContent){
+    let finalCode = htmlContent;
+    executedFrame.srcdoc = finalCode;
+}
+// If HTML, JS and CSS are written in separate editor textboxes
+function executeModularCode(htmlContent, cssContent, jsContent){
+      let finalCode = `
         ${htmlContent}
         <style>${cssContent}</style>
         <script>${jsContent}<\/script>
       `;
-    }
+      executedFrame.srcdoc = finalCode;
+}
 
-    executedFrame.srcdoc = finalCode;
+
+
+// The single Function That handles execution protocol
+function executeCode() {
+
+  const htmlContent = htmlEditor.innerText.trim();
+  const cssContent = cssEditor.innerText.trim();
+  const jsContent = jsEditor.innerText.trim();
+
+  let surprise = "ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;";
+  let toLowSup = surprise.toLowerCase() ;
+
+  // easter egg: credits mode
+  if (htmlContent.toLowerCase().includes(toLowSup)) {
+    executeEasterEgg();
+    return;
   }
+  else if (htmlContent === "" && cssContent === "" && jsContent === "") {
+    executeNoCode();
+    return;
+  }
+  else if (htmlContent !== "" && cssContent == "" && jsContent == "") {
+    executeFullCode(htmlContent);
+    return;
+  }
+  else if (htmlContent !== "" && (cssContent !== "" || jsContent !== "")) {
+    executeModularCode(htmlContent, cssContent, jsContent);
+    return;
+  }
+};
 
-  // your existing display toggle stays same
-  document.querySelector(".all").style.display = "none";
-  executedFrame.style.display = "block";
-  clrBtn.style.display = "none";
-  runBtn.style.display = "none";
-  backBtn.style.display = "inline-block";
-});
+    runBtn.addEventListener("click", () => {
+      executeCode();
+      // your existing display toggle stays same
+      document.querySelector(".all").style.display = "none";
+      executedFrame.style.display = "block";
+      clrBtn.style.display = "none";
+      runBtn.style.display = "none";
+      backBtn.style.display = "inline-block";
+    });
 
     backBtn.addEventListener("click", () => {
       document.querySelector(".all").style.display = "flex";
@@ -394,7 +427,7 @@ let toLowSup = surprise.toLowerCase() ;
 
 
 
-
+// Declare Important Variables
 
 const filePicker = document.getElementById("filePicker");
 const toolbarMenu = document.getElementById('toolbarMenu');
@@ -402,71 +435,68 @@ const toolbarMenu = document.getElementById('toolbarMenu');
 let valueFont = 0 ;
 let wrapNo = 0 ;
 
-toolbarMenu.addEventListener('change', (e) => {
-  const action = e.target.value;
-
-  if (action === 'external') {
-    filePicker.click(); // your hidden file input
-  } else if (action === 'generate') {
+//==========================================================================
+function clickFilePicker(){
+    filePicker.click();
+}
+//===========================================================================
+function generateBasicHTML(){
     htmlEditor.innerText = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Document</title>
+<style>
+/* CSS here */
+</style>
 </head>
 <body>
 
+<!--body here -->
+
+<script>
+/* Write JavaScript here */
+<\/script>
 </body>
 </html>`;
     cssEditor.innerText = '';
     jsEditor.innerText = '';
-  } else if (action === 'download') {
-    downloadAsHTML(); // existing function
-  }
-
-else if (action === 'hideTB') {
+}
+//=========================================================================
+function hideToggleButtons(){
   const isVisibleJS = getComputedStyle(jsToggle).display !== "none";
-   const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
+  const isVisibleCSS = getComputedStyle(cssToggle).display !== "none";
 
   jsToggle.style.display = isVisibleJS ? "none" : "block";
   cssToggle.style.display = isVisibleCSS ? "none" : "block";
 }
-
-
-
-  else if (action === 'credits') {
+//=========================================================================
+function showCredits(){
   alert("This is an HTML editor created by AK.\n\nFeel free to use and modify it as you wish!");
   htmlEditor.innerHTML = `
     <center><b>CREDITS</b></center>
     <center>Created by AK</center>
     <center>Feel free to use and modify it as you wish!</center>
     <br>
-    AUTHOR: AK Pandey <br>
-    VERSION: 1.0 <br>
-    DATE: 2023-10-01 <br>
+    AUTHOR: Ak <br>
+    VERSION: 1.5 <br>
+    DATE: 2026-01-27 <br>
     LICENSE: MIT License <br>
     CO-PARTNER(DEBUGGER):ChatGPT <br>
     LEGAL_NOTE: <b>ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;</b>
   `;
 }
-
-else if (action === 'darkMode') {
+//=========================================================================
+function toggleThemeMode(selectEl){
   document.body.classList.toggle("nightmode");
-
-  // menu option ka text bhi switch ho jaye
-  const option = e.target.querySelector("option[value='darkMode']");
-  if (document.body.classList.contains("nightmode")) {
-    option.textContent = "Light Mode ☀️";
-  } else {
-    option.textContent = "Night Mode 🌙";
-  }
+  const option = selectEl.querySelector("option[value='darkMode']");
+  option.textContent = document.body.classList.contains("nightmode")
+    ? "Light Mode ☀️"
+    : "Night Mode 🌙";
 }
-
-else if (action === 'fontPlus') {
-
-  
-
+//==========================================================================
+function handleFontSize(){
      if (valueFont === 0 ){
        htmlEditor.style.fontSize = "15px" ;
        valueFont++ ;
@@ -494,10 +524,9 @@ else if (action === 'fontPlus') {
      else {
       htmlEditor.style.fontSize = '' ;
      }
-  
 }
-
-else if (action === 'wrdWrp') {
+//============================================================================
+function handleWordWrap(){
   const editors = document.querySelectorAll(".editor");
 
   if (wrapNo === 1) {
@@ -516,16 +545,41 @@ else if (action === 'wrdWrp') {
     wrapNo = 1;
   }
 }
+//===========================================================================
+function handleUnknownAction(action){
+  console.log('Unknown action:', action);
+}
+//===========================================================================
 
+toolbarMenu.addEventListener('change', (e) => {
+  const action = e.target.value;
 
-
-
+  if (action === 'external') {
+    clickFilePicker(); // existing function
+  } else if (action === 'generate') {
+    generateBasicHTML(); // existing function
+  } else if (action === 'download') {
+    downloadAsHTML(); // existing function
+  } else if (action === 'hideTB') {
+    hideToggleButtons(); // existing function
+  } else if (action === 'credits') {
+    showCredits(); // existing function
+  } else if (action === 'darkMode') {
+    toggleThemeMode(toolbarMenu); // existing function
+  } else if (action === 'fontPlus') {
+    handleFontSize(); // existing function
+  } else if (action === 'wrdWrp') {
+    handleWordWrap(); // existing function
+  } else {
+    handleUnknownAction(action); // handle unknown actions: existing function
+  }
 
   // reset menu back to ⋮
   toolbarMenu.value = '';
 });
 
-    filePicker.addEventListener("change", (e) => {
+// File upload handler
+filePicker.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -560,7 +614,6 @@ document.querySelectorAll(".editor").forEach(editor => {
 
 
 
-
-  </script>
+</script>
 </body>
 </html>
