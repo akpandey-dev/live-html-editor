@@ -2,7 +2,7 @@
 
 An interactive, browser-based HTML editor that allows users to write, edit, and preview HTML, CSS, and JavaScript in real time.
 
-Live HTML Editor provides a lightweight development environment inside the browser, enabling instant experimentation with frontend code using a modular structure and a single-file standalone version.
+Live HTML Editor provides a lightweight development environment inside the browser, enabling instant experimentation with frontend code using a modular structure and a single-file distributable build.
 
 ---
 
@@ -35,6 +35,11 @@ This project is intended for educational and experimental purposes only. It is n
 
 3. Edit files in `src/`
 
+4. Build when needed:
+
+```
+  python scripts/build.py
+```
 
 Recommended for learning and development.
 
@@ -67,8 +72,11 @@ live-html-editor/
 │   ├── script.js
 │   └── style.css
 │
-├── dist/                   # Standalone (for users)
+├── dist/                   # Final build (for users)
 │   └── live-html-editor.html  # Single-file app
+│
+├── scripts/                # Build tools
+│   └── build.py
 │
 ├── README.md
 ├── LICENSE
@@ -77,17 +85,33 @@ live-html-editor/
 
 ---
 
-## Project Overview
+### Build System
+
+Run:
+
+```
+python scripts/build.py
+```
+
+This will:
+
+* Combine HTML, CSS, and JavaScript
+* Bundle into a single file
+* Output to `dist/`
+
+---
+
+## Architecture Overview
 
 This project uses two modes:
 
 ### Development Mode
 
 * Modular structure
-* Easy to edit and experiment with
+* Local server support
 * Easy to extend
 
-### Standalone Mode
+### Production Mode
 
 * Single HTML file
 * Fully portable
@@ -100,6 +124,7 @@ This project uses two modes:
 * HTML5
 * CSS3
 * Vanilla JavaScript
+* Python (tooling and build script only)
 
 ---
 
