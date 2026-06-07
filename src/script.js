@@ -42,7 +42,7 @@ function executeEasterEgg() {
       <div class="glitch">
         ⚠️ SYSTEM OVERRIDE ⚠️ <br>
         Unexpected Execution Triggered... <br>
-        Stark Protocol Activated!
+        Emergency Protocol Activated!
       </div>
       <script>
         setTimeout(()=>{
@@ -199,13 +199,13 @@ function hideToggleButtons(){
 
 
 function showCredits(){
-  alert("This is an HTML editor created by AKP Labs.\n\nFeel free to use and modify it as you wish!");
+  alert("This is an HTML editor created by AK Pandey.\n\nFeel free to use and modify it as you wish!");
   htmlEditor.innerHTML = `
     <center><b>CREDITS</b></center>
-    <center>Created by AKP Labs</center>
+    <center>Created by AK Pandey</center>
     <center>Feel free to use and modify it as you wish!</center>
     <br>
-    AUTHOR: Ak <br>
+    AUTHOR: AK Pandey <br>
     LICENSE: MIT License <br>
     LEGAL_NOTE: <b>ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;</b>
   `;

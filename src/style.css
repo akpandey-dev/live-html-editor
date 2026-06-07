@@ -1,13 +1,29 @@
-   body {
-      background-color: darkgrey;
+
+*{
+  background-color: darkgrey;
+}
+  
+  body {
       margin: 3vh;
       border: 5px solid black;
       min-height: 90vh;
       padding: 4px;
       display: flex;
       justify-content: center;
+      scrollbar-width: none;
     }
-    .all {
+    html{
+      scrollbar-width: none;
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar{
+      display: none;
+    }
+
+
+
+
+.all {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -120,6 +136,7 @@
       display: flex;
       gap: 1rem;
       z-index: 1000;
+      background: none;
     }
     .clr-btn,
     .execute-btn,
@@ -207,9 +224,10 @@ body.nightmode .back-btn:hover {
 }
 
 .headingDiv{
-  color: blueviolet;
+  color: black;
   text-align: center;
   font-size: small;
+  transition: 0.3s;
 }
 .headingDiv:hover{
   color: blue;

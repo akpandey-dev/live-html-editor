@@ -7,16 +7,32 @@
   <title>Live HTML Editor</title>
 
   <style>
-   body {
-      background-color: darkgrey;
+
+*{
+  background-color: darkgrey;
+}
+  
+  body {
       margin: 3vh;
       border: 5px solid black;
       min-height: 90vh;
       padding: 4px;
       display: flex;
       justify-content: center;
+      scrollbar-width: none;
     }
-    .all {
+    html{
+      scrollbar-width: none;
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar{
+      display: none;
+    }
+
+
+
+
+.all {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -129,6 +145,7 @@
       display: flex;
       gap: 1rem;
       z-index: 1000;
+      background: none;
     }
     .clr-btn,
     .execute-btn,
@@ -216,9 +233,10 @@ body.nightmode .back-btn:hover {
 }
 
 .headingDiv{
-  color: blueviolet;
+  color: black;
   text-align: center;
   font-size: small;
+  transition: 0.3s;
 }
 .headingDiv:hover{
   color: blue;
@@ -320,7 +338,7 @@ function executeEasterEgg() {
       <div class="glitch">
         ⚠️ SYSTEM OVERRIDE ⚠️ <br>
         Unexpected Execution Triggered... <br>
-        Stark Protocol Activated!
+        Emergency Protocol Activated!
       </div>
       <script>
         setTimeout(()=>{
@@ -477,13 +495,13 @@ function hideToggleButtons(){
 
 
 function showCredits(){
-  alert("This is an HTML editor created by AKP Labs.\n\nFeel free to use and modify it as you wish!");
+  alert("This is an HTML editor created by AK Pandey.\n\nFeel free to use and modify it as you wish!");
   htmlEditor.innerHTML = `
     <center><b>CREDITS</b></center>
-    <center>Created by AKP Labs</center>
+    <center>Created by AK Pandey</center>
     <center>Feel free to use and modify it as you wish!</center>
     <br>
-    AUTHOR: Ak <br>
+    AUTHOR: AK Pandey <br>
     LICENSE: MIT License <br>
     LEGAL_NOTE: <b>ANY ERRORS OR BUGS LEFT AREN'T THE RESPONSIBILITY OF THE PUBLISHER ;</b>
   `;
