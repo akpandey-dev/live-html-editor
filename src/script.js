@@ -222,34 +222,27 @@ function toggleThemeMode(selectEl){
 
 
 function handleFontSize(){
-     if (valueFont === 0 ){
-       htmlEditor.style.fontSize = "15px" ;
-       valueFont++ ;
-     }
-   else if(valueFont === 1){
-       htmlEditor.style.fontSize = "18px" ;
-       valueFont++ ;
-     }
-
-      else if(valueFont === 2){
-       htmlEditor.style.fontSize = "25px" ;
-       valueFont++ ;
-     }
-
-      else if(valueFont === 3){
-       htmlEditor.style.fontSize = "30px" ;
-       valueFont++ ;
-     }
-
-      else if(valueFont === 4){
-       htmlEditor.style.fontSize = "medium" ;
-       valueFont = 0 ;
-     }
-
-     else {
-      htmlEditor.style.fontSize = '' ;
-     }
+  const editors = [htmlEditor, cssEditor, jsEditor];
+  if (valueFont === 0 ){
+    editors.forEach(ed => ed.style.fontSize = "15px");
+    valueFont++;
+  } else if(valueFont === 1){
+    editors.forEach(ed => ed.style.fontSize = "18px");
+    valueFont++;
+  } else if(valueFont === 2){
+    editors.forEach(ed => ed.style.fontSize = "25px");
+    valueFont++;
+  } else if(valueFont === 3){
+    editors.forEach(ed => ed.style.fontSize = "30px");
+    valueFont++;
+  } else if(valueFont === 4){
+    editors.forEach(ed => ed.style.fontSize = "medium");
+    valueFont = 0;
+  } else {
+    editors.forEach(ed => ed.style.fontSize = "");
+  }
 }
+
 
 
 function handleWordWrap(){
